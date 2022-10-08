@@ -1,0 +1,16 @@
+.bannerContainer{
+    background-image: url('/vercel.svg');
+    width: 95%;
+    height: 25vh;
+    background-color: red;
+    margin: 0 50px;
+}
+
+.imageWrapper{
+    background-color: blue;
+}
+
+.bannerButton{
+    color: white;
+    background-color: red;
+}
