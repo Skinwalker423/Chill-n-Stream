@@ -11,10 +11,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Chill'n Stream
-        </h1>
-        <Banner />
+        <Banner title="Title" subTitle="Subtitle" buttonName="Play" imgUrl={'/vercel.svg'} />
       </main>
     </div>
   )
