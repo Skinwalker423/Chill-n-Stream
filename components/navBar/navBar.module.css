@@ -1,0 +1,13 @@
+.navContainer{
+    display: flex;
+    justify-content: space-between;
+}
+
+.leftWrapper{
+    display: flex;
+    
+}
+
+.header {
+    color: var(--red);
+}
