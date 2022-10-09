@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Banner from '../components/banner/Banner'
 import styles from '../styles/Home.module.css'
+import NavBar from '../components/navBar/navBar'
 
 export default function Home() {
   return (
@@ -11,7 +12,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <Banner title="Title" subTitle="Subtitle" buttonName="Play" imgUrl={'/vercel.svg'} />
+        <NavBar />
+        <Banner title="Clifford the red dog" subTitle="a very cute dog" buttonName="Play" imgUrl={'/static/clifford.webp'} />
       </main>
     </div>
   )
