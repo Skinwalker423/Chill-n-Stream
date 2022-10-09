@@ -1,17 +1,27 @@
 import styles from './navBar.module.css';
 import Image from 'next/image'
+import { useState } from 'react';
 
 
-const NavBar = () => {
+const NavBar = ({logoUrl, username, avatarUrl, setExpand}) => {
+
+
+  const handleUserInfo = () => {
+    setExpand((bool) => !bool);
+  }  
+
   return (
     <div className={styles.navContainer}>
         <div className={styles.leftWrapper}>
             <h1 className={styles.header}>Netflix</h1>
             <p>My List</p>
         </div>
-        <div>
-            <Image src={'/favicon.ico'} width={25} height={25} />
-        </div>
+        <button onClick={handleUserInfo} className={styles.userContainer}>
+            <span className={styles.username}>{username}</span>
+            <div className={styles.expandIconWrapper}>
+                <Image src={avatarUrl} width={20} height={20} />  
+            </div> 
+        </button>
     </div>
   )
 }

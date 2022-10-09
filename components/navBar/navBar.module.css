@@ -1,13 +1,32 @@
 .navContainer{
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    margin: 0 2rem;
 }
 
 .leftWrapper{
     display: flex;
-    
+    justify-content: space-between;
+    width: 20rem;
+    align-items: center;
 }
 
 .header {
     color: var(--red);
+}
+
+.userContainer{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+}
+
+.username{
+    color: var(--white10);
+}
+
+.expandIconWrapper{
+    background-color: var(--white10);
 }

@@ -2,6 +2,15 @@
     width: 100%;
 }
 
-.header{
-    color: var(--red);
+.accountDetails{
+    color: red;
+    width: 500px;
+    height: 700px;
+    border: 2px solid red;
+    position: absolute;
+    margin-top: 3rem;
+    margin-right: 2rem;
+    top: 0;
+    right: 0;
+    background-color: white;
 }

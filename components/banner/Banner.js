@@ -3,6 +3,11 @@ import Image from 'next/image';
 
 
 const Banner = ({title, subTitle, buttonName, imgUrl}) => {
+
+  const playButtonHandler = async() => {
+    console.log('playing movie');
+  }
+
   return (
     <div className={styles.bannerContainer}>
       <div className={styles.bannerDetails}>
@@ -13,7 +18,7 @@ const Banner = ({title, subTitle, buttonName, imgUrl}) => {
           <h3 className={styles.title}>{title}</h3>
           <h3 className={styles.subTitle}>{subTitle}</h3>
           <div className={styles.buttonWrapper}>
-            <button type='button' className={styles.bannerButton}><span className={styles.buttonNameWrapper}><Image src={'/static/play-arrow.svg'} width={35} height={35} alt='Play Icon' />{buttonName}</span></button>
+            <button onClick={playButtonHandler} type='button' className={styles.bannerButton}><span className={styles.buttonNameWrapper}><Image src={'/static/play-arrow.svg'} width={35} height={35} alt='Play Icon' />{buttonName}</span></button>
           </div>
       </div>
       <div
