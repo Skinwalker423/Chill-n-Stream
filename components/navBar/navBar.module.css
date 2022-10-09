@@ -30,3 +30,21 @@
 .expandIconWrapper{
     background-color: var(--white10);
 }
+
+.accountDetails {
+    color: red;
+    width: 12em;
+    height: 3rem;
+    border: 2px solid red;
+    position: absolute;
+    margin-top: 3rem;
+    margin-right: 2.5rem;
+    top: -10px;
+    right: 0;
+    z-index: 1;
+    background-color: var(--white10);
+}
+
+.signInButton{
+    color: var(--white10);
+}
