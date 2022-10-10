@@ -13,12 +13,12 @@ const colorGame = () => {
     const [correctColor, setCorrectColor] = useState(false);
     const [wrongColor, setWrongColor] = useState(false);
 
-    const rng3 = () => {
-        return Math.floor(Math.random() * 3)
+    const rngNum = (num) => {
+        return Math.floor(Math.random() * num)
     };
 
     const randomHexDigit = () => {
-        const rngValue = Math.floor(Math.random() * 16 );
+        const rngValue = rngNum(16);
         const randomHexValue = hexValues[rngValue];
         return randomHexValue.toString();
     } 
@@ -47,7 +47,7 @@ const colorGame = () => {
 
     const setBoard = () => {
         const arr = createColorsArray();
-        const rng = rng3();
+        const rng = rngNum(3);
         setButtonsArray(arr);
         setBoardColor(arr[rng]);
         setCorrectColor(false);

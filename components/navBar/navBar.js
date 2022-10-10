@@ -25,20 +25,27 @@ const NavBar = ({logoUrl, username, avatarUrl}) => {
   
 
   return (
-    <div className={styles.navContainer}>
+    <div className={styles.container}>
         <div className={styles.leftWrapper}>
-            <h1 className={styles.header}>Netflix</h1>
-            <p>My List</p>
+            <a href='/' className={styles.logoLink}>
+              <div className={styles.logoWrapper}>
+                Netflix
+              </div>
+            </a>
+            <ul className={styles.navItems}>
+              <li className={styles.navItem}>Home</li>
+              <li className={styles.navItem}>My List</li>
+            </ul>
         </div>
-        <nav>
+        <nav className={styles.navContainer}>
             <div>
-                {user ? <button onClick={handleUserInfo} className={styles.userContainer}>
-                    <span className={styles.username}>{username}</span>
+                {user ? <button onClick={handleUserInfo} className={styles.usernameBtn}>
+                    <p className={styles.username}>{username}</p>
                     <div className={styles.expandIconWrapper}>
                         <Image src={avatarUrl} width={20} height={20} />  
                     </div> 
                 </button> : <button className={styles.signInButton} onClick={handleSignIn}>Sign In</button>}
-                {user && expand && <button onClick={handleSignOut} type='button' className={styles.accountDetails}>Sign Out</button>}
+                {user && expand && <div className={styles.navDropdown}><button className={styles.signOutButton} onClick={handleSignOut} type='button' >Sign Out</button></div>}
             </div>
             
         </nav>
