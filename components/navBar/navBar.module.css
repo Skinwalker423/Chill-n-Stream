@@ -1,13 +1,148 @@
-.navContainer{
+.container{
     display: flex;
+    width: 100%;
+    position: fixed;
     justify-content: space-between;
+    align-items: center;
+    margin: 0 2rem;
+    height: 10vh;
+    background-image: linear-gradient(to bottom, var(--gradient-stops));
+    
+    --gradient-from: var(--black);
+    --gradient-stops: var(--gradient-from), var(--gradient-to, rgba(0, 0, 0, 0));
+    z-index: 50;
 }
 
 .leftWrapper{
     display: flex;
-    
+    justify-content: space-between;
+    width: 7rem;
+    align-items: center;
 }
 
-.header {
+.logoWrapper {
     color: var(--red);
+    font-size: x-large;
+}
+
+.logoLink {
+    display: flex;
+    font-weight: 500;
+    font-size: 1rem;
+    align-items: center;
+    color: var(--white10);
+    margin-bottom: 1rem
+        /* 16px */
+    ;
+}
+
+.logoWrapper {
+    color: var(--red);
+    width: 2rem
+        /* 128px */
+    ;
+}
+
+.navItems {
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 1.5rem
+        /* 24px */
+    ;
+    font-size: 0.875rem
+        /* 14px */
+    ;
+    font-size: 1rem;
+
+    line-height: 1.25rem
+        /* 20px */
+    ;
+    list-style: none;
+}
+
+.navItem {
+    font-weight: 600;
+    font-size: .75rem;
+    cursor: pointer;
+    margin-right: 0.75rem
+        /* 12px */
+    ;
+    width: 3rem;
+}
+
+.navContainer{
+    width: 200px;
+}
+
+.usernameBtn{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+}
+
+.username{
+    color: var(--white10);
+}
+
+.expandIconWrapper{
+    background-color: var(--white10);
+}
+
+.navDropdown {
+    display: flex;
+    align-items: center;
+    color: red;
+    width: 12em;
+    height: 3rem;
+    border: 2px solid red;
+    position: absolute;
+    margin-top: 5rem;
+    margin-right: 4.5rem;
+    top: -10px;
+    right: 0;
+    z-index: 1;
+    background-color: var(--white10);
+}
+
+.signInButton{
+    color: var(--white10);
+}
+
+.signOutButton{
+    width: 100%;
+}
+
+
+@media (min-width: 768px) {
+    .wrapper {
+        padding-left: 4rem
+            /* 64px */
+        ;
+        padding-right: 4rem
+            /* 64px */
+        ;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .logoLink {
+        margin-bottom: 0px;
+    }
+
+    .navItems {
+        margin-left: 3rem
+            /* 48px */
+        ;
+    }
+
+    .navItem {
+        margin-right: 1.25rem
+            /* 20px */
+        ;
+    }
+
 }

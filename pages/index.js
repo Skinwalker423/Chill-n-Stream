@@ -4,6 +4,8 @@ import styles from '../styles/Home.module.css'
 import NavBar from '../components/navBar/navBar'
 
 export default function Home() {
+
+
   return (
     <div className={styles.container}>
       <Head>
@@ -12,7 +14,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <NavBar />
+        <NavBar username={'423@gmail.com'} avatarUrl={'/static/expand.svg'} />
+        
         <Banner title="Clifford the red dog" subTitle="a very cute dog" buttonName="Play" imgUrl={'/static/clifford.webp'} />
       </main>
     </div>
