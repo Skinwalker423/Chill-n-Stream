@@ -1,23 +1,38 @@
 import styles from './navBar.module.css';
 import Image from 'next/image'
 import { useState } from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 
 const NavBar = ({logoUrl, username, avatarUrl}) => {
 
-  const [expand, setExpand] = useState(false);
-  const [user, setUser] = useState(null);
+  const [expandDropdown, setExpandDropdown] = useState(false);
+  const [user, setUser] = useState(true);
+
+  const router = useRouter();
+
+  const handleHome = (e) => {
+    e.preventDefault();
+    console.log('routing home');
+    router.push('/');
+  }
+
+  const handleMyList = (e) => {
+    e.preventDefault();
+    console.log('routing to my list');
+    router.push('/browse/my-list');
+  }
 
   const handleUserInfo = () => {
-    setExpand((bool) => !bool);
+    setExpandDropdown((bool) => !bool);
   }
   const handleSignOut = () => {
     console.log('logging off');
     setUser(null);
-    setExpand((bool) => !bool);
+    setExpandDropdown(false);
     
   }
-
   const handleSignIn = () => {
     setUser('423@gmail.com')
   }
@@ -27,14 +42,15 @@ const NavBar = ({logoUrl, username, avatarUrl}) => {
   return (
     <div className={styles.container}>
         <div className={styles.leftWrapper}>
-            <a href='/' className={styles.logoLink}>
+            <Link href='/' ><a className={styles.logoLink}>
               <div className={styles.logoWrapper}>
-                Netflix
+                <Image src={'/static/netflix.svg'} width={150} height={150} alt={'streaming logo'} />
               </div>
-            </a>
+              </a>
+            </Link>
             <ul className={styles.navItems}>
-              <li className={styles.navItem}>Home</li>
-              <li className={styles.navItem}>My List</li>
+              <li onClick={handleHome} className={styles.navItem}>Home</li>
+              <li onClick={handleMyList} className={styles.navItem}>My List</li>
             </ul>
         </div>
         <nav className={styles.navContainer}>
@@ -42,10 +58,10 @@ const NavBar = ({logoUrl, username, avatarUrl}) => {
                 {user ? <button onClick={handleUserInfo} className={styles.usernameBtn}>
                     <p className={styles.username}>{username}</p>
                     <div className={styles.expandIconWrapper}>
-                        <Image src={avatarUrl} width={20} height={20} />  
+                        <Image src={"https://img.icons8.com/small/16/FFFFFF/expand-arrow.png"} width={20} height={20} />  
                     </div> 
-                </button> : <button className={styles.signInButton} onClick={handleSignIn}>Sign In</button>}
-                {user && expand && <div className={styles.navDropdown}><button className={styles.signOutButton} onClick={handleSignOut} type='button' >Sign Out</button></div>}
+                </button> : <Link href={'/login'}><a className={styles.signInButton}>Sign In</a></Link>}
+                {user && expandDropdown && <div className={styles.navDropdown}><button className={styles.signOutButton} onClick={handleSignOut} type='button' >Sign Out</button></div>}
             </div>
             
         </nav>
