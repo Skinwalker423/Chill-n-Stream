@@ -93,13 +93,13 @@
 }
 
 .navDropdown {
+    position: absolute;
     display: flex;
     align-items: center;
     color: red;
     width: 12em;
     height: 3rem;
     border: 2px solid red;
-    position: absolute;
     margin-top: 5rem;
     margin-right: 4.5rem;
     top: -10px;

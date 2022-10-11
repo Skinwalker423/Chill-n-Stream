@@ -1,12 +1,28 @@
 import styles from './navBar.module.css';
 import Image from 'next/image'
 import { useState } from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 
 const NavBar = ({logoUrl, username, avatarUrl}) => {
 
   const [expand, setExpand] = useState(false);
   const [user, setUser] = useState(null);
+
+  const router = useRouter();
+
+  const handleHome = (e) => {
+    e.preventDefault();
+    console.log('routing home');
+    router.push('/');
+  }
+
+  const handleMyList = (e) => {
+    e.preventDefault();
+    console.log('routing to my list');
+    router.push('/browse/my-list');
+  }
 
   const handleUserInfo = () => {
     setExpand((bool) => !bool);
@@ -17,7 +33,6 @@ const NavBar = ({logoUrl, username, avatarUrl}) => {
     setExpand((bool) => !bool);
     
   }
-
   const handleSignIn = () => {
     setUser('423@gmail.com')
   }
@@ -27,14 +42,15 @@ const NavBar = ({logoUrl, username, avatarUrl}) => {
   return (
     <div className={styles.container}>
         <div className={styles.leftWrapper}>
-            <a href='/' className={styles.logoLink}>
+            <Link href='/' ><a className={styles.logoLink}>
               <div className={styles.logoWrapper}>
                 Netflix
               </div>
-            </a>
+              </a>
+            </Link>
             <ul className={styles.navItems}>
-              <li className={styles.navItem}>Home</li>
-              <li className={styles.navItem}>My List</li>
+              <li onClick={handleHome} className={styles.navItem}>Home</li>
+              <li onClick={handleMyList} className={styles.navItem}>My List</li>
             </ul>
         </div>
         <nav className={styles.navContainer}>
