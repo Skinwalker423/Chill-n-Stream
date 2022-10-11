@@ -7,8 +7,8 @@ import Link from 'next/link';
 
 const NavBar = ({logoUrl, username, avatarUrl}) => {
 
-  const [expand, setExpand] = useState(false);
-  const [user, setUser] = useState(null);
+  const [expandDropdown, setExpandDropdown] = useState(false);
+  const [user, setUser] = useState(true);
 
   const router = useRouter();
 
@@ -25,12 +25,12 @@ const NavBar = ({logoUrl, username, avatarUrl}) => {
   }
 
   const handleUserInfo = () => {
-    setExpand((bool) => !bool);
+    setExpandDropdown((bool) => !bool);
   }
   const handleSignOut = () => {
     console.log('logging off');
     setUser(null);
-    setExpand((bool) => !bool);
+    setExpandDropdown(false);
     
   }
   const handleSignIn = () => {
@@ -44,7 +44,7 @@ const NavBar = ({logoUrl, username, avatarUrl}) => {
         <div className={styles.leftWrapper}>
             <Link href='/' ><a className={styles.logoLink}>
               <div className={styles.logoWrapper}>
-                Netflix
+                <Image src={'/static/netflix.svg'} width={150} height={150} alt={'streaming logo'} />
               </div>
               </a>
             </Link>
@@ -58,10 +58,10 @@ const NavBar = ({logoUrl, username, avatarUrl}) => {
                 {user ? <button onClick={handleUserInfo} className={styles.usernameBtn}>
                     <p className={styles.username}>{username}</p>
                     <div className={styles.expandIconWrapper}>
-                        <Image src={avatarUrl} width={20} height={20} />  
+                        <Image src={"https://img.icons8.com/small/16/FFFFFF/expand-arrow.png"} width={20} height={20} />  
                     </div> 
-                </button> : <button className={styles.signInButton} onClick={handleSignIn}>Sign In</button>}
-                {user && expand && <div className={styles.navDropdown}><button className={styles.signOutButton} onClick={handleSignOut} type='button' >Sign Out</button></div>}
+                </button> : <Link href={'/login'}><a className={styles.signInButton}>Sign In</a></Link>}
+                {user && expandDropdown && <div className={styles.navDropdown}><button className={styles.signOutButton} onClick={handleSignOut} type='button' >Sign Out</button></div>}
             </div>
             
         </nav>

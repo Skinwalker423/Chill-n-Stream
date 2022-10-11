@@ -38,7 +38,7 @@
 
 .logoWrapper {
     color: var(--red);
-    width: 2rem
+    width: 5rem;
         /* 128px */
     ;
 }
@@ -89,7 +89,7 @@
 }
 
 .expandIconWrapper{
-    background-color: var(--white10);
+    margin-top: 3px;
 }
 
 .navDropdown {
@@ -142,6 +142,13 @@
     .navItem {
         margin-right: 1.25rem
             /* 20px */
+        ;
+    }
+
+    .logoWrapper {
+        color: var(--red);
+        width: 10rem;
+        /* 128px */
         ;
     }
 
