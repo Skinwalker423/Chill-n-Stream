@@ -3,12 +3,7 @@ import Banner from '../components/banner/Banner'
 import styles from '../styles/Home.module.css'
 import NavBar from '../components/navBar/navBar'
 import Card from '../components/card/card'
-
-export const sizes = {
-        'small': 'small',
-        'medium': 'medium',
-        'large': 'large'
-}
+import { classMap } from '../components/card/card'
 
 
 export default function Home() {
@@ -26,19 +21,19 @@ export default function Home() {
         
         <Banner title="Clifford the red dog" subTitle="a very cute dog" buttonName="Play" imgUrl={'/static/clifford.webp'} />
         <div className={styles.cardListContainer}>
-        <Card imgUrl={'/static/clifford.webp'} size={sizes.large} />
-        <Card imgUrl={'/static/clifford.webp'} size={sizes.large} />
-        <Card imgUrl={'/static/clifford.webp'} size={sizes.large} />
+        <Card imgUrl={'/static/clifford.webp'} size={classMap.large} />
+        <Card imgUrl={'/static/clifford.webp'} size={classMap.large} />
+        <Card imgUrl={'/static/clifford.webp'} size={classMap.large} />
         </div>
         <div className={styles.cardListContainer}>
-        <Card imgUrl={'/static/clifford.webp'} size={sizes.medium} />
-        <Card imgUrl={'/static/clifford.webp'} size={sizes.medium} />
-        <Card imgUrl={'/static/clifford.webp'} size={sizes.medium} />
+        <Card imgUrl={'/static/clifford.webp'} size={classMap.medium} />
+        <Card imgUrl={'/static/clifford.webp'} size={classMap.medium} />
+        <Card imgUrl={'/static/clifford.webp'} size={classMap.medium} />
         </div>
         <div className={styles.cardListContainer}>
-        <Card imgUrl={'/static/clifford.webp'} size={sizes.small} />
-        <Card imgUrl={'/static/clifford.webp'} size={sizes.small} />
-        <Card imgUrl={'/static/clifford.webp'} size={sizes.small} />
+        <Card imgUrl={'/static/clifford.webp'} size={classMap.small} />
+        <Card imgUrl={'/static/clifford.webp'} size={classMap.small} />
+        <Card imgUrl={'/static/clifford.webp'} size={classMap.small} />
         </div>
       </main>
     </div>
