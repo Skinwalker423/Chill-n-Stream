@@ -1,3 +1,8 @@
 .container{
     width: 100%;
+    margin-bottom: 20px;
+}
+
+.sectionWrapper{
+    margin-top: 1.5rem;
 }
