@@ -36,11 +36,20 @@
     cursor: pointer;
 }
 
-.container:hover {
+/* .container:hover {
     z-index: 10;
     transform: scale(1.125);
-    transition: all .2s ease-in-out;
+    transition: all .5s ease-in-out;
 
+} */
+
+.imgMotionWrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.imgMotionWrapper:hover{
+    z-index: 99;
 }
 
 .cardImg {
