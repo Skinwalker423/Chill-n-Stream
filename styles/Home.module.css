@@ -1,3 +1,8 @@
 .container{
     width: 100%;
 }
+
+
+.cardListContainer{
+    display: flex;
+}
