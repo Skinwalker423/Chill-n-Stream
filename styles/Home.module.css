@@ -3,6 +3,10 @@
     margin-bottom: 20px;
 }
 
+
 .sectionWrapper{
     margin-top: 1.5rem;
+
+.cardListContainer{
+    display: flex;
 }

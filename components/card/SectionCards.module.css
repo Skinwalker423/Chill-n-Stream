@@ -1,5 +1,4 @@
 
-
 .container {
     color: var(--blue20);
     background-color: --var(--black50);
@@ -16,6 +15,11 @@
     color: var(--white10);
     font-weight: 700;
     font-size: 2rem;
+    
+.container{
+    display: flex;
+    flex-direction: column;
+
 }
 
 .cardListContainer {

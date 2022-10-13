@@ -7,6 +7,7 @@ import SectionCards from '../components/card/SectionCards'
 import { getVideos } from '../lib/videos'
 
 
+
 export default function Home() {
 
   const disneyVids = getVideos();
@@ -52,11 +53,17 @@ export default function Home() {
         <NavBar username={'423@gmail.com'} avatarUrl={'/static/expand.svg'} />
         
         <Banner title="Clifford the red dog" subTitle="a very cute dog" buttonName="Play" imgUrl={'/static/clifford.webp'} />
+
         <div className={styles.sectionWrapper}>
           <SectionCards moviesArray={disneyVids} section={'My Favs'} size={classMap.large}  />
           <SectionCards moviesArray={disneyVids} section={'Thrillers'} size={classMap.medium} />
           <SectionCards moviesArray={disneyVids} section={'Comedy'} size={classMap.small} />
         </div>
+
+        <SectionCards section={'My Favs'} size={classMap.large}  />
+        <SectionCards section={'Thrillers'} size={classMap.medium} />
+        <SectionCards section={'Comedy'} size={classMap.small} />
+
       </main>
     </div>
   )
