@@ -8,15 +8,11 @@ const SectionCards = ({section = 'Section', moviesArray, size }) => {
     <section className={styles.container}>
         <h2 className={styles.title}>{section}</h2>
         <div className={styles.cardListContainer}>
-            <Card imgUrl={'/static/clifford.webp'} size={size} />
-            <Card size={size} />
-            <Card imgUrl={'/static/clifford.webp'} size={size} />
-            <Card imgUrl={'/static/clifford.webp'} size={size} />
-            <Card imgUrl={'/static/clifford.webp'} size={size} />
-            <Card imgUrl={'/static/clifford.webp'} size={size} />
-            <Card imgUrl={'/static/clifford.webp'} size={size} />
-            <Card imgUrl={'/static/clifford.webp'} size={size} />
-            <Card imgUrl={'/static/clifford.webp'} size={size} />
+            {moviesArray.map((movie) => {
+              return(
+                <Card size={size} imgUrl={movie.imgUrl} key={movie.id} />
+              )
+            })}
         </div>
     </section>
   )

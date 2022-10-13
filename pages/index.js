@@ -9,6 +9,33 @@ import SectionCards from '../components/card/SectionCards'
 export default function Home() {
 
 
+  const moviesArray = [
+    {
+      imgUrl: '/static/clifford.webp',
+      id: 1
+    },
+    {
+      imgUrl: '/static/clifford.webp',
+      id: 2
+    },
+    {
+      imgUrl: '/static/clifford.webp',
+      id: 3
+    },
+    {
+      imgUrl: '/static/clifford.webp',
+      id: 4
+    },
+    {
+      imgUrl: '/static/clifford.webp',
+      id: 5
+    },
+    {
+      imgUrl: '/static/clifford.webp',
+      id: 6
+    },
+  ]
+
   return (
     <div className={styles.container}>
       <Head>
@@ -21,9 +48,9 @@ export default function Home() {
         
         <Banner title="Clifford the red dog" subTitle="a very cute dog" buttonName="Play" imgUrl={'/static/clifford.webp'} />
         <div className={styles.sectionWrapper}>
-          <SectionCards section={'My Favs'} size={classMap.large}  />
-          <SectionCards section={'Thrillers'} size={classMap.medium} />
-          <SectionCards section={'Comedy'} size={classMap.small} />
+          <SectionCards moviesArray={moviesArray} section={'My Favs'} size={classMap.large}  />
+          <SectionCards moviesArray={moviesArray} section={'Thrillers'} size={classMap.medium} />
+          <SectionCards moviesArray={moviesArray} section={'Comedy'} size={classMap.small} />
         </div>
       </main>
     </div>
