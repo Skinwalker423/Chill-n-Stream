@@ -30,10 +30,12 @@
 }
 
 .container {
+    display: flex;
     margin-right: 0.25rem
         /* 4px */
     ;
     cursor: pointer;
+    flex: 0 0 auto;
 }
 
 /* .container:hover {
@@ -64,6 +66,7 @@
     object-fit: cover;
 
     object-position: center;
+    display: inline-block;
     display: block;
 
     max-width: 100%;
