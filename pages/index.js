@@ -4,63 +4,20 @@ import styles from '../styles/Home.module.css'
 import NavBar from '../components/navBar/navBar'
 import { classMap } from '../components/card/card'
 import SectionCards from '../components/card/SectionCards'
-import { getVideos } from '../lib/videos'
+import fetchYouTubeVideos from '../lib/fetchYouTubeVideos'
 
 export async function getServerSideProps(context) {
 
-  // const disneyVids = getVideos();
-  const res = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=6&q=Disney&key=${process.env.NEXT_PUBLIC_YOUTUBE_API_KEY}`, {
-    Accept: 'application/json',
-  })
-
-  const data = await res.json();
-  console.log(data)
-  const disneyVids = getVideos(data);
-
-
-  console.log('disney vids inside getServerside props:', disneyVids);
+  const disneyVids = await fetchYouTubeVideos('Disney trailer');
+  const comedyVids = await fetchYouTubeVideos('Comedy Movies');
+  const popVids = await fetchYouTubeVideos('Popular movies');
 
   return{
-    props: {disneyVids}
+    props: {disneyVids, comedyVids, popVids}
   }
 }
 
-
-export default function Home({disneyVids}) {
-
-  // const disneyVids = getVideos();
-
-  
-
-
-  const moviesArray = [
-    {
-      imgUrl: '/static/clifford.webp',
-      id: 1
-    },
-    {
-      imgUrl: '/static/clifford.webp',
-      id: 2
-    },
-    {
-      imgUrl: '/static/clifford.webp',
-      id: 3
-    },
-    {
-      imgUrl: '/static/clifford.webp',
-      id: 4
-    },
-    {
-      imgUrl: '/static/clifford.webp',
-      id: 5
-    },
-    {
-      imgUrl: '/static/clifford.webp',
-      id: 6
-    },
-  ]
-
-  console.log("dd");
+export default function Home({disneyVids, comedyVids, popVids}) {
 
   return (
     <div className={styles.container}>
@@ -75,8 +32,8 @@ export default function Home({disneyVids}) {
         <Banner title="Clifford the red dog" subTitle="a very cute dog" buttonName="Play" imgUrl={'/static/clifford.webp'} />
         <div className={styles.sectionWrapper}>
           <SectionCards moviesArray={disneyVids} section={'My Favs'} size={classMap.large}  />
-          <SectionCards moviesArray={disneyVids} section={'Thrillers'} size={classMap.medium} />
-          <SectionCards moviesArray={disneyVids} section={'Comedy'} size={classMap.small} />
+          <SectionCards moviesArray={comedyVids} section={'Comedy'} size={classMap.medium} />
+          <SectionCards moviesArray={popVids} section={'Trending'} size={classMap.small} />
         </div>
       </main>
     </div>
