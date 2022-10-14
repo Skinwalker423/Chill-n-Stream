@@ -8,9 +8,17 @@ import { getVideos } from '../lib/videos'
 
 export async function getServerSideProps(context) {
 
-  const disneyVids = getVideos();
-  console.log('disney vids inside getServerside props:', disneyVids);
+  // const disneyVids = getVideos();
+  const res = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=6&q=Disney&key=${process.env.NEXT_PUBLIC_YOUTUBE_API_KEY}`, {
+    Accept: 'application/json',
+  })
 
+  const data = await res.json();
+  console.log(data)
+  const disneyVids = getVideos(data);
+
+
+  console.log('disney vids inside getServerside props:', disneyVids);
 
   return{
     props: {disneyVids}
