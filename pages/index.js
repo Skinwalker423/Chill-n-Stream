@@ -5,12 +5,13 @@ import NavBar from '../components/navBar/navBar'
 import { classMap } from '../components/card/card'
 import SectionCards from '../components/card/SectionCards'
 import fetchYouTubeVideos from '../lib/fetchYouTubeVideos'
+import { getVideosByQuery, getPopularVideos } from '../lib/fetchYouTubeVideos'
 
 export async function getServerSideProps(context) {
 
-  const disneyVids = await fetchYouTubeVideos('Disney trailer');
-  const comedyVids = await fetchYouTubeVideos('Comedy Movies');
-  const popVids = await fetchYouTubeVideos('Popular movies');
+  const disneyVids = await getVideosByQuery('Disney trailer');
+  const comedyVids = await getVideosByQuery('Comedy Movies');
+  const popVids = await getPopularVideos();
 
   return{
     props: {disneyVids, comedyVids, popVids}
