@@ -29,6 +29,7 @@ const login = () => {
   const handleInputOnchange = (e) => {
     setUserMessage('');
     setEmail(e.target.value);
+  
   }
 
 
@@ -56,6 +57,19 @@ const login = () => {
                     <label className={styles.label} htmlFor="email">Sign In</label>
                     <input onChange={handleInputOnchange} value={email} className={styles.emailInput} type="email" id="email" name="email" placeholder='Email address' />
                     {userMessage && <p className={styles.userMessage}>{userMessage}</p>}
+
+            <title>Login</title>
+            <meta name='description'  content='login page' />
+        </Head>
+        <main>
+            <div className={styles.logoWrapper}>
+                <Image src={'/static/netflix.svg'} width={150} height={150} alt={'streaming logo'} />
+            </div>
+            <form onSubmit={handleLoginSubmit} className={styles.formContainer}>
+                <section className={styles.inputSection}>
+                    <label className={styles.label} htmlFor="email">Sign In</label>
+                    <input ref={emailRef} className={styles.emailInput} type="email" id="email" name="email" placeholder='Email address' />
+
                 </section>
                 <div className={styles.buttonWrapper}>
                     <button className={styles.button} type="submit">Sign In</button>
