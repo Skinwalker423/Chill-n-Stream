@@ -35,6 +35,7 @@ const NavBar = ({logoUrl, username, avatarUrl}) => {
     console.log('logging off');
     dispatch({type: ACTION_TYPES.SIGN_OUT})
     setExpandDropdown(false);
+    router.push('/login');
     
   }
  

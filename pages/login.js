@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import React, { useRef, useContext } from 'react'
+import React, { useRef, useContext, useState } from 'react'
 import styles from '../styles/login.module.css'
 import Image from 'next/image'
 import { UserContext } from '../store/userContext'
@@ -9,16 +9,26 @@ import Link from 'next/link'
 
 const login = () => {
 
-  const emailRef = useRef();
-  const route = useRouter();
+  const [email, setEmail] = useState('');
+  const [userMessage, setUserMessage] = useState('');
+  const router = useRouter();
   const {state, dispatch} = useContext(UserContext)
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
-    console.log('sign in start')
-    console.log(emailRef.current.value);
-    dispatch({type: ACTION_TYPES.SET_USER, payload: emailRef.current.value})
-    route.push('/');
+
+    if(!email){
+        setUserMessage('Enter a valid email');
+        return;
+    }
+    console.log('sign in start');
+    dispatch({type: ACTION_TYPES.SET_USER, payload: email})
+    router.push('/');
+  }
+
+  const handleInputOnchange = (e) => {
+    setUserMessage('');
+    setEmail(e.target.value);
   }
 
 
@@ -44,7 +54,8 @@ const login = () => {
             <form onSubmit={handleLoginSubmit} className={styles.formContainer}>
                 <section className={styles.inputSection}>
                     <label className={styles.label} htmlFor="email">Sign In</label>
-                    <input ref={emailRef} className={styles.emailInput} type="email" id="email" name="email" placeholder='Email address' />
+                    <input onChange={handleInputOnchange} value={email} className={styles.emailInput} type="email" id="email" name="email" placeholder='Email address' />
+                    {userMessage && <p className={styles.userMessage}>{userMessage}</p>}
                 </section>
                 <div className={styles.buttonWrapper}>
                     <button className={styles.button} type="submit">Sign In</button>
