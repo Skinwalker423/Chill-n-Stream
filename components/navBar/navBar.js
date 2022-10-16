@@ -1,16 +1,20 @@
 import styles from './navBar.module.css';
 import Image from 'next/image'
-import { useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { UserContext } from '../../store/userContext';
+import { ACTION_TYPES } from '../../store/userContext';
 
 
 const NavBar = ({logoUrl, username, avatarUrl}) => {
 
   const [expandDropdown, setExpandDropdown] = useState(false);
-  const [user, setUser] = useState(true);
+  // const [user, setUser] = useState(false);
+  const {state, dispatch} = useContext(UserContext);
 
   const router = useRouter();
+
 
   const handleHome = (e) => {
     e.preventDefault();
@@ -29,15 +33,12 @@ const NavBar = ({logoUrl, username, avatarUrl}) => {
   }
   const handleSignOut = () => {
     console.log('logging off');
-    setUser(null);
+    dispatch({type: ACTION_TYPES.SIGN_OUT})
     setExpandDropdown(false);
+    router.push('/login');
     
   }
-  const handleSignIn = () => {
-    setUser('423@gmail.com')
-  }
-  
-  
+ 
 
   return (
     <div className={styles.container}>
@@ -54,16 +55,13 @@ const NavBar = ({logoUrl, username, avatarUrl}) => {
             </ul>
         </div>
         <nav className={styles.navContainer}>
-            <div>
-                {user ? <button onClick={handleUserInfo} className={styles.usernameBtn}>
-                    <p className={styles.username}>{username}</p>
+                {state.user ? <button onClick={handleUserInfo} className={styles.usernameBtn}>
+                    <p className={styles.username}>{state.user}</p>
                     <div className={styles.expandIconWrapper}>
                         <Image src={"https://img.icons8.com/small/16/FFFFFF/expand-arrow.png"} width={20} height={20} />  
                     </div> 
                 </button> : <Link href={'/login'}><a className={styles.signInButton}>Sign In</a></Link>}
-                {user && expandDropdown && <div className={styles.navDropdown}><button className={styles.signOutButton} onClick={handleSignOut} type='button' >Sign Out</button></div>}
-            </div>
-            
+                {state.user && expandDropdown && <div className={styles.navDropdown}><button className={styles.signOutButton} onClick={handleSignOut} type='button' >Sign Out</button></div>}
         </nav>
     </div>
   )
