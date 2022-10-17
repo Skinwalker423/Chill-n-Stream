@@ -12,7 +12,6 @@ const NavBar = ({logoUrl, username, avatarUrl}) => {
   const [expandDropdown, setExpandDropdown] = useState(false);
   // const [user, setUser] = useState(false);
   const {state, dispatch} = useContext(UserContext);
-  console.log(state);
 
   const router = useRouter();
 
@@ -62,7 +61,11 @@ const NavBar = ({logoUrl, username, avatarUrl}) => {
                         <Image src={"https://img.icons8.com/small/16/FFFFFF/expand-arrow.png"} width={20} height={20} />  
                     </div> 
                 </button> : <Link href={'/login'}><a className={styles.signInButton}>Sign In</a></Link>}
-                {state.user && expandDropdown && <div className={styles.navDropdown}><button className={styles.signOutButton} onClick={handleSignOut} type='button' >Sign Out</button></div>}
+                {state.user && expandDropdown && 
+                  <div className={styles.navDropdown}>
+                    <button className={styles.signOutButton} onClick={handleSignOut} type='button' >Sign Out</button>
+                    <Link href={`/dashboard/${state.user}`}><a>Dashboard</a></Link>
+                  </div>}
         </nav>
     </div>
   )

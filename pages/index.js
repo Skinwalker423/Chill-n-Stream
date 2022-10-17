@@ -6,6 +6,7 @@ import { classMap } from '../components/card/card'
 import SectionCards from '../components/card/SectionCards'
 import fetchYouTubeVideos from '../lib/fetchYouTubeVideos'
 import { getVideosByQuery, getPopularVideos } from '../lib/fetchYouTubeVideos'
+import { m } from '../lib/magic-client'
 
 export async function getServerSideProps(context) {
 
@@ -18,7 +19,11 @@ export async function getServerSideProps(context) {
   }
 }
 
+
+
 export default function Home({disneyVids, comedyVids, popVids}) {
+
+
 
   return (
     <div className={styles.container}>

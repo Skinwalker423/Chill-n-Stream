@@ -32,16 +32,22 @@ export const UserProvider = ({children}) => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
     const getUserTokenId = async() => {
-        const tokenId = await m.user.getIdToken();
-        console.log(tokenId);
-        if(tokenId){
-        dispatch({type: ACTION_TYPES.SET_USER, payload: tokenId});
-        } else return
+        try{
+            const tokenId = await m.user.getIdToken();
+            const {email}  = await m.user.getMetadata();
+            console.log('token id', tokenId);
+            console.log('meta data', email);
+            if(tokenId){
+                dispatch({type: ACTION_TYPES.SET_USER, payload: {user:tokenId, email: email}});
+            } else return
+        }catch(err){
+            console.log('problem with getting user token Id', err)
+        }
     }
 
     useEffect(() => {
         getUserTokenId();
-  }, [])
+    }, [])
 
     const value = {
         state,

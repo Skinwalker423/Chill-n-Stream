@@ -16,7 +16,7 @@ const UserDashboard = () => {
     useEffect(() =>{
       if(state.user !== router.query.tokenId ){
         console.log('not authorized');
-        router.push('/');
+        router.push('/login');
       }
     }, [])
 
