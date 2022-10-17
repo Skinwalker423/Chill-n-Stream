@@ -16,7 +16,8 @@ const login = () => {
   const [email, setEmail] = useState('');
   const [userMessage, setUserMessage] = useState('');
   const router = useRouter();
-  const {state, dispatch} = useContext(UserContext)
+  const {state, dispatch} = useContext(UserContext);
+  const [user, setUser] = useState(null);
 
   const handleLoginSubmit = async(e) => {
     e.preventDefault();
@@ -27,12 +28,13 @@ const login = () => {
     }
     console.log('sign in start');
     try {
-        await m.auth.loginWithMagicLink({ email: email });
+        const user = await m.auth.loginWithMagicLink({ email: email });
+        dispatch({type: ACTION_TYPES.SET_USER, payload: {user: user, email: email}})
+        router.push(`/dashboard/${user}`);
     } catch(err) {
         console.log("error with magic link", err);
     }
-    dispatch({type: ACTION_TYPES.SET_USER, payload: email})
-    router.push('/');
+
   }
 
   const handleInputOnchange = (e) => {
