@@ -1,4 +1,4 @@
-import React, {useEffect, useContext} from 'react'
+import React, {useEffect, useContext, useState} from 'react'
 import Head from 'next/head'
 import { m } from '../../lib/magic-client';
 import Link from 'next/link';
@@ -8,20 +8,25 @@ import { useRouter } from 'next/router';
 const UserDashboard = () => {
 
     const router = useRouter();
-    const {state, dispatch, getUserToken} = useContext(UserContext);
+    const {state, dispatch} = useContext(UserContext);
+    const [loading, setLoading] = useState(false);
 
-    console.log(state);
-    console.log(router.query.tokenId);
 
     useEffect(() =>{
-      if(state.user !== router.query.tokenId ){
-        console.log('not authorized');
-        router.push('/login');
-      }
-    }, [])
+        if(router.query.tokenId && state.user){
+          if(state.user !== router.query.tokenId ){
+          console.log('not authorized');
+          router.push('/');
+          } 
+        }else {
+          setLoading(true);
+        }
+    }, [router.query.tokenId])
 
   return (
     <div>
+
+      {!loading ? <div>
         <Head>
             <title>Dashboard</title>
             <meta name="description" content="user info" />
@@ -35,6 +40,7 @@ const UserDashboard = () => {
             </div>
             <Link href={'/'}><a>Back Home</a></Link>
         </div>
+      </div>: 'Loading...'}  
     </div>
   )
 }
