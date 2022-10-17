@@ -1,18 +1,24 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useContext} from 'react'
 import Head from 'next/head'
-import { m } from '../../lib/magic-client'
+import { m } from '../../lib/magic-client';
+import Link from 'next/link';
+import { UserContext } from '../../store/userContext';
+import { useRouter } from 'next/router';
 
 const UserDashboard = () => {
 
-    const getUserTokenId = async() => {
-        const idToken = await m.user.getIdToken();
-        console.log({idToken});
-        return idToken;
-    }
+    const router = useRouter();
+    const {state, dispatch, getUserToken} = useContext(UserContext);
 
-  useEffect(() => {
-    
-  }, [])
+    console.log(state);
+    console.log(router.query.tokenId);
+
+    useEffect(() =>{
+      if(state.user !== router.query.tokenId ){
+        console.log('not authorized');
+        router.push('/');
+      }
+    }, [])
 
   return (
     <div>
@@ -22,7 +28,12 @@ const UserDashboard = () => {
         </Head>
         <div>
             <h1>Welcome to your Dashboard </h1>
-            <p></p>
+            <div>
+              <p>Email: {state.email}</p>
+              <p>Username: </p>
+              <p>Other info</p>
+            </div>
+            <Link href={'/'}><a>Back Home</a></Link>
         </div>
     </div>
   )

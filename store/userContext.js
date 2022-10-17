@@ -18,9 +18,9 @@ const reducer = (state, action) => {
 
     switch(type) {
         case 'SET_USER':
-            return {...state, user: payload};
+            return {user:payload.user, email:payload.email};
         case 'SIGN_OUT':
-            return {user: null}
+            return {user: null, email: ''}
         default: 
             throw new Error;
 
@@ -46,7 +46,7 @@ export const UserProvider = ({children}) => {
     const value = {
         state,
         dispatch,
-        getUserTokenId
+        getUserTokenId,
 
     }
 
