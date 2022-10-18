@@ -7,12 +7,16 @@ import SectionCards from '../components/card/SectionCards'
 import fetchYouTubeVideos from '../lib/fetchYouTubeVideos'
 import { getVideosByQuery, getPopularVideos } from '../lib/fetchYouTubeVideos'
 import { m } from '../lib/magic-client'
+import vidaData from '../data/youtubeQuery.json'
 
 export async function getServerSideProps(context) {
 
-  const disneyVids = await getVideosByQuery('Disney trailer');
-  const comedyVids = await getVideosByQuery('Comedy Movies');
-  const popVids = await getPopularVideos();
+  // const disneyVids = await getVideosByQuery('Disney trailer');
+  // const comedyVids = await getVideosByQuery('Comedy Movies');
+  // const popVids = await getPopularVideos();
+  const disneyVids = vidaData.items;
+  const comedyVids = vidaData.items;
+  const popVids = vidaData.items;
 
   return{
     props: {disneyVids, comedyVids, popVids}

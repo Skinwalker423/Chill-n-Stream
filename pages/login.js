@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import React, { useRef, useContext, useState } from 'react'
+import React, { useRef, useContext, useState, useEffect } from 'react'
 import styles from '../styles/login.module.css'
 import Image from 'next/image'
 import { UserContext } from '../store/userContext'
@@ -17,22 +17,45 @@ const login = () => {
   const [userMessage, setUserMessage] = useState('');
   const router = useRouter();
   const {state, dispatch} = useContext(UserContext);
-  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+
+    const handleLoading = () => {
+        setIsLoading(false);
+    }
+
+    router.events.on('routeChangeComplete', handleLoading);
+    router.events.on('routeChangeError', handleLoading);
+
+    return () => {
+        router.events.off('routeChangeComplete', handleLoading);
+        router.events.off('routeChangeError', handleLoading);
+    }
+
+  },[router])
 
   const handleLoginSubmit = async(e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     if(!email){
         setUserMessage('Enter a valid email');
+        setIsLoading(false);
         return;
     }
     console.log('sign in start');
     try {
-        const user = await m.auth.loginWithMagicLink({ email: email });
-        dispatch({type: ACTION_TYPES.SET_USER, payload: {user: user, email: email}})
-        router.push(`/dashboard/${user}`);
+        const user = await m.auth.loginWithMagicLink({ email });
+        if(!user){
+            setIsLoading(false);
+            setUserMessage('Could not authenticate');
+        }
+        dispatch({type: ACTION_TYPES.SET_USER, payload: {user, email}})
+        router.push(`/`);
     } catch(err) {
         console.log("error with magic link", err);
+        setIsLoading(false);
     }
 
   }
@@ -69,7 +92,7 @@ const login = () => {
                     {userMessage && <p className={styles.userMessage}>{userMessage}</p>}
                 </section>
                 <div className={styles.buttonWrapper}>
-                    <button className={styles.button} type="submit">Sign In</button>
+                    <button className={styles.button} disabled={isLoading} type="submit">{isLoading ? 'Loading...': 'Sign In'}</button>
                 </div>
             </form>
             

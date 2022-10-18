@@ -13,7 +13,7 @@ const SectionCards = ({section = 'Section', moviesArray = [], size }) => {
             {moviesArray.map((movie) => {
 
               return(
-                <Card size={size} imgUrl={movie.imgUrl} key={movie.id} />
+                <Card size={size} imgUrl={movie.imgUrl} key={movie.id.videoId || movie.id} />
               )
             })}
         </div>
