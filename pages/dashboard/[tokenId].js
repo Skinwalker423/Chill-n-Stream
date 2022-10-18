@@ -4,6 +4,7 @@ import { m } from '../../lib/magic-client';
 import Link from 'next/link';
 import { UserContext } from '../../store/userContext';
 import { useRouter } from 'next/router';
+import styles from './[tokenId].module.css';
 
 const UserDashboard = () => {
 
@@ -13,15 +14,27 @@ const UserDashboard = () => {
 
 
     useEffect(() =>{
-        if(router.query.tokenId && state.user){
-          if(state.user !== router.query.tokenId ){
-          console.log('not authorized');
-          router.push('/');
-          } 
-        }else {
-          setLoading(true);
+      const verifyingMetaData = async() => {
+        try{
+            setLoading(true);
+            const {publicAddress} = await m.user.getMetadata();
+            if(publicAddress){
+              if(router.query.tokenId !== publicAddress ){
+                console.log('not authorized');
+                router.push(`/dashboard/${publicAddress}`);
+              } else {
+                setLoading(false);
+              }
+            }
+        }catch(err){
+            console.log('problem with getting user token Id', err);
+            router.push('/login');
         }
-    }, [router.query.tokenId])
+      }
+
+      verifyingMetaData();
+        
+    }, [router.query.tokenId, state.user])
 
   return (
     <div>
@@ -37,8 +50,11 @@ const UserDashboard = () => {
               <p>Email: {state.email}</p>
               <p>Username: </p>
               <p>Other info</p>
+
             </div>
-            <Link href={'/'}><a>Back Home</a></Link>
+            <div className={styles.buttonWrapper}>
+              <Link href={'/'}><a><button className={styles.button} type='button'>Back Home</button></a></Link>
+            </div>
         </div>
       </div>: 'Loading...'}  
     </div>

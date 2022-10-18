@@ -1,0 +1,8 @@
+.buttonWrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 3rem;
+    width: 8rem;
+    background-color: red;
+}

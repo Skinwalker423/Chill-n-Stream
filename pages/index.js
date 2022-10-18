@@ -37,7 +37,7 @@ export default function Home({disneyVids, comedyVids, popVids}) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <NavBar username={'423@gmail.com'} avatarUrl={'/static/expand.svg'} />
+        <NavBar avatarUrl={'/static/expand.svg'} />
         
         <Banner title="Clifford the red dog" subTitle="a very cute dog" buttonName="Play" imgUrl={'/static/clifford.webp'} />
         <div className={styles.sectionWrapper}>

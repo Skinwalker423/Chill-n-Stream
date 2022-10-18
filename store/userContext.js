@@ -1,5 +1,5 @@
 import { createContext, useState, useReducer, useEffect } from "react"
-import { m } from "../lib/magic-client"; 
+import { m } from "../lib/magic-client";
 
 export const ACTION_TYPES = {
     SET_USER: 'SET_USER',
@@ -31,21 +31,22 @@ export const UserProvider = ({children}) => {
 
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    
-
-    useEffect(() => {
-        const getUserTokenId = async() => {
+    const setUserInfo = async() => {
         try{
-            const tokenId = await m.user.getIdToken();
-            const {email}  = await m.user.getMetadata();
-            if(tokenId && email){
-                dispatch({type: ACTION_TYPES.SET_USER, payload: {user:tokenId, email: email}});
+            const {email, publicAddress}  = await m.user.getMetadata();
+            if(publicAddress && email){
+                dispatch({type: ACTION_TYPES.SET_USER, payload: {user:publicAddress, email: email}});
+                console.log('setting user');
             } else return
         }catch(err){
             console.log('problem with getting user token Id', err)
         }
     }
-        getUserTokenId();
+
+    
+
+    useEffect(() => {
+        setUserInfo();
     }, [])
 
     const value = {
