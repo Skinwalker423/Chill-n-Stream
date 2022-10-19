@@ -5,13 +5,15 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { UserContext } from '../../store/userContext';
 import { ACTION_TYPES } from '../../store/userContext';
+import { m } from '../../lib/magic-client';
 
 
-const NavBar = ({logoUrl, username, avatarUrl}) => {
+
+const NavBar = () => {
 
   const [expandDropdown, setExpandDropdown] = useState(false);
-  // const [user, setUser] = useState(false);
   const {state, dispatch} = useContext(UserContext);
+  const [userEmail, setUserEmail] = useState('');
 
   const router = useRouter();
 
@@ -31,11 +33,20 @@ const NavBar = ({logoUrl, username, avatarUrl}) => {
   const handleUserInfo = () => {
     setExpandDropdown((bool) => !bool);
   }
-  const handleSignOut = () => {
+  const handleSignOut = async() => {
     console.log('logging off');
-    dispatch({type: ACTION_TYPES.SIGN_OUT})
-    setExpandDropdown(false);
-    router.push('/login');
+    try {
+      const userLoggedOff = await m.user.logout();
+      if(userLoggedOff){
+        dispatch({type: ACTION_TYPES.SIGN_OUT})
+        setExpandDropdown(false);
+        router.push('/login');
+      }
+    
+    } catch(err) {
+      console.error('something went wrong logging off', err);
+      router.push('/login');
+    }
     
   }
  
@@ -55,17 +66,21 @@ const NavBar = ({logoUrl, username, avatarUrl}) => {
             </ul>
         </div>
         <nav className={styles.navContainer}>
-                {state.user ? <button onClick={handleUserInfo} className={styles.usernameBtn}>
-                    <p className={styles.username}>{state.email || 'anaon'}</p>
+                {state.email && <button onClick={handleUserInfo} className={styles.usernameBtn}>
+                    <p className={styles.username}>{state.email}</p>
                     <div className={styles.expandIconWrapper}>
                         <Image src={"https://img.icons8.com/small/16/FFFFFF/expand-arrow.png"} width={20} height={20} />  
                     </div> 
-                </button> : <Link href={'/login'}><a className={styles.signInButton}>Sign In</a></Link>}
+                </button>}
                 {state.user && expandDropdown && 
-                  <div className={styles.navDropdown}>
-                    <button className={styles.signOutButton} onClick={handleSignOut} type='button' >Sign Out</button>
-                    <Link href={`/dashboard/${state.user}`}><a>Dashboard</a></Link>
-                  </div>}
+                  <ul className={styles.navDropdown}>
+                    <li className={styles.dropDownItem}>
+                      <button className={styles.signOutButton} onClick={handleSignOut} type='button' >Sign Out</button>
+                    </li>
+                    <li className={styles.dropDownItem}>
+                      <Link href={`/dashboard/${state.user}`}><a>Dashboard</a></Link>
+                    </li>
+                  </ul>}
         </nav>
     </div>
   )
