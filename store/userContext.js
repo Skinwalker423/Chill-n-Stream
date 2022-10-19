@@ -43,7 +43,11 @@ export const UserProvider = ({children}) => {
                 console.log('setting user');
                 console.log('current path in user context',currentPath);
                 if(currentPath === `/dashboard/[tokenId]`){
-                    router.push(`/dashboard/${publicAddress}`);
+                    if(router.query.tokenId !== publicAddress ){
+                        console.log('not authorized');
+                        console.log({publicAddress});
+                        router.push(`/dashboard/${publicAddress}`);
+                    } 
                 } else {
                     router.push('/');
                 }

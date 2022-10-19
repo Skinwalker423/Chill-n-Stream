@@ -11,6 +11,7 @@ import vidaData from '../data/youtubeQuery.json'
 import { useState, useEffect, useContext } from 'react'
 import { useRouter } from 'next/router'
 import { UserContext } from '../store/userContext'
+import Loader from '../components/Loader/Loader'
 
 export async function getServerSideProps(context) {
 
@@ -41,7 +42,7 @@ export default function Home({disneyVids, comedyVids, popVids}) {
         <meta name="description" content="Find and watch your favorite streaming shows" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {isLoading ? <div>Loading...</div> : <main className={styles.main}>
+      {isLoading ? <Loader /> : <main className={styles.main}>
         <NavBar avatarUrl={'/static/expand.svg'} />
         
         <Banner title="Clifford the red dog" subTitle="a very cute dog" buttonName="Play" imgUrl={'/static/clifford.webp'} />
