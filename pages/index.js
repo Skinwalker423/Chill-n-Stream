@@ -8,8 +8,9 @@ import fetchYouTubeVideos from '../lib/fetchYouTubeVideos'
 import { getVideosByQuery, getPopularVideos } from '../lib/fetchYouTubeVideos'
 import { m } from '../lib/magic-client'
 import vidaData from '../data/youtubeQuery.json'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useRouter } from 'next/router'
+import { UserContext } from '../store/userContext'
 
 export async function getServerSideProps(context) {
 
@@ -29,6 +30,8 @@ export async function getServerSideProps(context) {
 
 export default function Home({disneyVids, comedyVids, popVids}) {
 
+  const {isLoading} = useContext(UserContext);
+
 
 
   return (
@@ -38,7 +41,7 @@ export default function Home({disneyVids, comedyVids, popVids}) {
         <meta name="description" content="Find and watch your favorite streaming shows" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
+      {isLoading ? <div>Loading...</div> : <main className={styles.main}>
         <NavBar avatarUrl={'/static/expand.svg'} />
         
         <Banner title="Clifford the red dog" subTitle="a very cute dog" buttonName="Play" imgUrl={'/static/clifford.webp'} />
@@ -47,7 +50,7 @@ export default function Home({disneyVids, comedyVids, popVids}) {
           <SectionCards moviesArray={comedyVids} section={'Comedy'} size={classMap.medium} />
           <SectionCards moviesArray={popVids} section={'Trending'} size={classMap.small} />
         </div>
-      </main>
+      </main>}
     </div>
   )
 }

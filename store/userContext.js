@@ -1,5 +1,6 @@
 import { createContext, useState, useReducer, useEffect } from "react"
 import { m } from "../lib/magic-client";
+import { useRouter } from "next/router";
 
 export const ACTION_TYPES = {
     SET_USER: 'SET_USER',
@@ -30,6 +31,9 @@ const reducer = (state, action) => {
 export const UserProvider = ({children}) => {
 
     const [state, dispatch] = useReducer(reducer, initialState);
+    const [isLoading, setIsLoading] = useState(true);
+    const router = useRouter();
+    const currentPath = router.asPath;
 
     const setUserInfo = async() => {
         try{
@@ -37,9 +41,18 @@ export const UserProvider = ({children}) => {
             if(publicAddress && email){
                 dispatch({type: ACTION_TYPES.SET_USER, payload: {user:publicAddress, email: email}});
                 console.log('setting user');
-            } else return
+                console.log('current path in user context',currentPath);
+                if(currentPath === `/dashboard/[tokenId]`){
+                    router.push(`/dashboard/${publicAddress}`);
+                } else {
+                    router.push('/');
+                }
+            } else {
+                router.push('/login');
+            }
         }catch(err){
-            console.log('problem with getting user token Id', err)
+            console.log('problem with getting user token Id', err);
+            router.push('/login');
         }
     }
 
@@ -49,9 +62,25 @@ export const UserProvider = ({children}) => {
         setUserInfo();
     }, [])
 
+    useEffect(() => {
+
+    const handleLoading = () => {
+        setIsLoading(false);
+    }
+
+    router.events.on('routeChangeComplete', handleLoading);
+
+    return () => {
+        router.events.off('routeChangeComplete', handleLoading);
+    }
+
+  },[router])
+
     const value = {
         state,
         dispatch,
+        isLoading,
+        setIsLoading,
 
     }
 
