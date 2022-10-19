@@ -13,6 +13,7 @@ const NavBar = () => {
 
   const [expandDropdown, setExpandDropdown] = useState(false);
   const {state, dispatch} = useContext(UserContext);
+  const [userEmail, setUserEmail] = useState('');
 
   const router = useRouter();
 
@@ -44,6 +45,7 @@ const NavBar = () => {
     
     } catch(err) {
       console.error('something went wrong logging off', err);
+      router.push('/login');
     }
     
   }
@@ -64,12 +66,12 @@ const NavBar = () => {
             </ul>
         </div>
         <nav className={styles.navContainer}>
-                {state.user ? <button onClick={handleUserInfo} className={styles.usernameBtn}>
-                    <p className={styles.username}>{state.email || 'user'}</p>
+                {state.email && <button onClick={handleUserInfo} className={styles.usernameBtn}>
+                    <p className={styles.username}>{state.email}</p>
                     <div className={styles.expandIconWrapper}>
                         <Image src={"https://img.icons8.com/small/16/FFFFFF/expand-arrow.png"} width={20} height={20} />  
                     </div> 
-                </button> : <Link href={'/login'}><a className={styles.signInButton}>Sign In</a></Link>}
+                </button>}
                 {state.user && expandDropdown && 
                   <ul className={styles.navDropdown}>
                     <li className={styles.dropDownItem}>

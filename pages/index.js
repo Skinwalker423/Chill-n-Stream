@@ -8,6 +8,8 @@ import fetchYouTubeVideos from '../lib/fetchYouTubeVideos'
 import { getVideosByQuery, getPopularVideos } from '../lib/fetchYouTubeVideos'
 import { m } from '../lib/magic-client'
 import vidaData from '../data/youtubeQuery.json'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 
 export async function getServerSideProps(context) {
 
