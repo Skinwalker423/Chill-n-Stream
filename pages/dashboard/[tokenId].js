@@ -5,41 +5,18 @@ import Link from 'next/link';
 import { UserContext } from '../../store/userContext';
 import { useRouter } from 'next/router';
 import styles from './[tokenId].module.css';
+import Loader from '../../components/Loader/Loader';
 
 const UserDashboard = () => {
 
     const router = useRouter();
-    const {state, dispatch} = useContext(UserContext);
+    const {state, dispatch, isLoading} = useContext(UserContext);
     const [loading, setLoading] = useState(false);
-
-
-    useEffect(() =>{
-      const verifyingMetaData = async() => {
-        try{
-            setLoading(true);
-            const {publicAddress} = await m.user.getMetadata();
-            if(publicAddress){
-              if(router.query.tokenId !== publicAddress ){
-                console.log('not authorized');
-                router.push(`/dashboard/${publicAddress}`);
-              } else {
-                setLoading(false);
-              }
-            }
-        }catch(err){
-            console.log('problem with getting user token Id', err);
-            router.push('/login');
-        }
-      }
-
-      verifyingMetaData();
-        
-    }, [router.query.tokenId, state.user])
 
   return (
     <div>
 
-      {!loading ? <div>
+      {!isLoading ? <div>
         <Head>
             <title>Dashboard</title>
             <meta name="description" content="user info" />
@@ -56,7 +33,7 @@ const UserDashboard = () => {
               <Link href={'/'}><a><button className={styles.button} type='button'>Back Home</button></a></Link>
             </div>
         </div>
-      </div>: 'Loading...'}  
+      </div>: <Loader />}  
     </div>
   )
 }
