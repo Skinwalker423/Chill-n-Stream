@@ -4,7 +4,8 @@ import React from 'react'
 
 const Loader = () => {
   return (
-    <div className={styles.loader}>Loading...</div>
+      <div className={styles.loader}>Loading...</div>
+    
   )
 }
 
