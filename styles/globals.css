@@ -85,13 +85,13 @@ button {
   --white30: rgb(209, 213, 219);
 
   --green10: rgba(110, 231, 183, 1);
-  --shadow10: rgba(0, 0, 0, 0.3);
+  --shadow10: #0000004d;
   --shadow20: rgba(158, 155, 155, 0.3);
   --shadow30: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
     0 10px 10px -5px rgba(0, 0, 0, 0.04);
 
   --red: rgb(220, 38, 38);
-  --red10: rgba(185, 28, 28, 1);
+  --red10: #b91c1c;
 
   --blue: rgba(75, 85, 99, 1);
   --blue20: rgb(55, 65, 81);
