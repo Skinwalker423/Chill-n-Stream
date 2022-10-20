@@ -48,7 +48,7 @@ export const UserProvider = ({children}) => {
                         console.log({publicAddress});
                         router.push(`/dashboard/${publicAddress}`);
                     } 
-                } else {
+                } else if (currentPath !== `/video/[id]`) {
                     router.push('/');
                 }
             } else {

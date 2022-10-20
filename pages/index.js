@@ -45,7 +45,7 @@ export default function Home({disneyVids, comedyVids, popVids}) {
       {isLoading ? <Loader /> : <main className={styles.main}>
         <NavBar avatarUrl={'/static/expand.svg'} />
         
-        <Banner title="Clifford the red dog" subTitle="a very cute dog" buttonName="Play" imgUrl={'/static/clifford.webp'} />
+        <Banner title="Clifford the red dog" subTitle="a very cute dog" buttonName="Play" imgUrl={'/static/clifford.webp'} videoId={'4zH5iYM4wJo'} />
         <div className={styles.sectionWrapper}>
           <SectionCards moviesArray={disneyVids} section={'My Favs'} size={classMap.large}  />
           <SectionCards moviesArray={comedyVids} section={'Comedy'} size={classMap.medium} />

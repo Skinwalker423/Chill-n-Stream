@@ -2,8 +2,10 @@ import React from 'react'
 import styles from './SectionCards.module.css'
 import Card from './card'
 import { classMap } from './card'
+import Link from 'next/link'
 
 const SectionCards = ({section = 'Section', moviesArray = [], size }) => {
+
 
 
   return (
@@ -13,7 +15,7 @@ const SectionCards = ({section = 'Section', moviesArray = [], size }) => {
             {moviesArray.map((movie) => {
 
               return(
-                <Card size={size} imgUrl={movie.imgUrl} key={movie.id.videoId || movie.id} />
+                <Link href={`/video/${movie.id.videoId || movie.id}`  } passHref key={movie.id.videoId || movie.id}><a><Card size={size} imgUrl={movie.imgUrl} key={movie.id.videoId || movie.id} /></a></Link>
               )
             })}
         </div>
