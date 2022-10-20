@@ -18,7 +18,7 @@ const Video = () => {
 
     function afterOpenModal() {
         // references are now sync'd and can be accessed.
-        subtitle.style.color = '#f00';
+        // subtitle.style.color = '#f00';
     }
 
     function closeModal() {
@@ -37,10 +37,30 @@ const Video = () => {
                 className={styles.modal}
                 overlayClassName={styles.overlay}
             >
-                <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Hello</h2>
-                <button onClick={closeModal}>close</button>
                 
-                <div>I am a modal</div>
+                
+            
+                <iframe 
+                    id="ytplayer" 
+                    type="text/html" 
+                    width="100%" 
+                    height="75%"
+                    src={`https://www.youtube.com/embed/${router.query.id}?autoplay=0&controls=0`}
+                    frameborder="0"
+                    className={styles.videoPlayer}
+                    
+                ></iframe>
+                
+                <div className={styles.detailsContainer}>
+                    <div>
+                        <h2>Title</h2>
+                        <p>left side description</p>
+                    </div>
+                    <div>
+                        <h2>Title</h2>
+                        <p>right side description</p>
+                    </div>
+                </div>
             </Modal>
             
         </div>
