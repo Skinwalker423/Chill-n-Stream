@@ -1,7 +1,7 @@
+import { useState } from 'react';
 import styles from './Banner.module.css';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-
 
 const Banner = ({title, subTitle, buttonName, imgUrl, videoId}) => {
 
@@ -10,6 +10,8 @@ const Banner = ({title, subTitle, buttonName, imgUrl, videoId}) => {
   const playButtonHandler = async() => {
     console.log('playing movie');
     router.push(`/video/${videoId}`);
+    
+
   }
 
   return (

@@ -48,8 +48,8 @@ export const UserProvider = ({children}) => {
                         console.log({publicAddress});
                         router.push(`/dashboard/${publicAddress}`);
                     } 
-                } else if (currentPath !== `/video/[id]`) {
-                    router.push('/');
+                } else {
+                    router.push(currentPath);
                 }
             } else {
                 router.push('/login');
@@ -92,3 +92,5 @@ export const UserProvider = ({children}) => {
         <UserContext.Provider value={value}>{children}</UserContext.Provider>
     )
 }
+
+
