@@ -9,15 +9,26 @@ import { getVideoById } from '../../lib/fetchYouTubeVideos';
 export async function getStaticProps({params}) {
   
     const vidId = params.id;
-    // const VideoList = await getVideoById(vidId);
+    const videoList = await getVideoById(vidId);
+    console.log({videoList});
+    // const videoList = {}
+    const videoBackup = {
+        title: "Hi cute dog",
+        publishTime: "1990-01-01",
+        description: "A big red dog that is super cute, can he get any bigger?",
+        channelTitle: "Paramount Pictures",
+        statistics: {
+            viewCount: 10000
+        },
+    };
 
   return {
     props: {
-      video: {},
+      video: videoList.length > 0 ? videoList[0] : videoBackup ,
     },
     // Next.js will attempt to re-generate the page:
     // - When a request comes in
-    // - At most once every 10 seconds
+    // - At most once every 60 seconds
     revalidate: 60, // In seconds
   }
 }
@@ -34,6 +45,7 @@ const listofBannerVids = ["mYfJxlgR2jw", "4zH5iYM4wJo", "KCPEHsAViiQ"];
   const paths = listofBannerVids.map((vidId) => ({
     params: { id: vidId },
   }))
+  console.log(paths);
 
   // We'll pre-render only these paths at build time.
   // { fallback: blocking } will server-render pages
@@ -43,19 +55,10 @@ const listofBannerVids = ["mYfJxlgR2jw", "4zH5iYM4wJo", "KCPEHsAViiQ"];
 
 
 
-const Video = (initialProps) => {
+const Video = ({video}) => {
 
-    const videoBackup = {
-        title: "Hi cute dog",
-        publishTime: "1990-01-01",
-        description: "A big red dog that is super cute, can he get any bigger?",
-        channelTitle: "Paramount Pictures",
-        statistics: {
-            viewCount: 10000
-        },
-    };
 
-    const { title, publishTime, description, channelTitle, statistics: {viewCount} } = videoBackup;
+    const { title, publishTime, description, channelTitle, statistics: {viewCount} } = video;
 
     const router = useRouter();
 
@@ -94,9 +97,9 @@ const Video = (initialProps) => {
                     id="ytplayer" 
                     type="text/html" 
                     width="100%" 
-                    height="75%"
+                    height="360"
                     src={`https://www.youtube.com/embed/${router.query.id}?autoplay=0&controls=0`}
-                    frameborder="0"
+                    frameBorder="0"
                     className={styles.videoPlayer}
                     
                 ></iframe>
