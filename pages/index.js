@@ -15,12 +15,12 @@ import Loader from '../components/Loader/Loader'
 
 export async function getServerSideProps(context) {
 
-  // const disneyVids = await getVideosByQuery('Disney trailer');
-  // const comedyVids = await getVideosByQuery('Comedy Movies');
-  // const popVids = await getPopularVideos();
-  const disneyVids = vidaData.items;
-  const comedyVids = vidaData.items;
-  const popVids = vidaData.items;
+  const disneyVids = await getVideosByQuery('Disney trailer');
+  const comedyVids = await getVideosByQuery('Comedy Movies');
+  const popVids = await getPopularVideos();
+  // const disneyVids = vidaData.items;
+  // const comedyVids = vidaData.items;
+  // const popVids = vidaData.items;
 
   return{
     props: {disneyVids, comedyVids, popVids}
