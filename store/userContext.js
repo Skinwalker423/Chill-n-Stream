@@ -12,6 +12,7 @@ export const UserContext = createContext();
 const initialState = {
     user: null,
     email: '',
+    issuer: '',
 }
 
 const reducer = (state, action) => {
@@ -19,7 +20,7 @@ const reducer = (state, action) => {
 
     switch(type) {
         case 'SET_USER':
-            return {user:payload.user, email:payload.email};
+            return {user:payload.user, email:payload.email, issuer: payload.issuer};
         case 'SIGN_OUT':
             return {user: null, email: ''}
         default: 
@@ -37,9 +38,9 @@ export const UserProvider = ({children}) => {
 
     const setUserInfo = async() => {
         try{
-            const {email, publicAddress}  = await m.user.getMetadata();
+            const {email, publicAddress, issuer}  = await m.user.getMetadata();
             if(publicAddress && email){
-                dispatch({type: ACTION_TYPES.SET_USER, payload: {user:publicAddress, email: email}});
+                dispatch({type: ACTION_TYPES.SET_USER, payload: {user:publicAddress, email, issuer}});
                 console.log('setting user');
                 console.log('current path in user context',currentPath);
                 if(currentPath === `/dashboard/[tokenId]`){
