@@ -12,7 +12,7 @@ import { useState, useEffect, useContext } from 'react'
 import { useRouter } from 'next/router'
 import { UserContext } from '../store/userContext'
 import Loader from '../components/Loader/Loader'
-import { startFetchMyQuery } from '../lib/db/hasura'
+import { fetchMyQuery } from '../lib/db/hasura'
 
 export async function getServerSideProps(context) {
 
@@ -22,9 +22,9 @@ export async function getServerSideProps(context) {
   // const disneyVids = vidaData.items;
   // const comedyVids = vidaData.items;
   // const popVids = vidaData.items;
-  const res = await startFetchMyQuery();
+  const res = await fetchMyQuery();
   console.log('here is the list of users', res);
-  const hasuraData = res ? res.users : [];
+  const hasuraData = res ? res.data.users : [];
 
   // const userStats = hasuraData.stats.find((data) => data.userId === issuer);
 
