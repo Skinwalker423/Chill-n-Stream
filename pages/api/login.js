@@ -2,6 +2,7 @@ import React from 'react'
 const { Magic } = require('@magic-sdk/admin');
 const magicAdmin = new Magic(process.env.SECRET_MAGIC_LINK_API_KEY);
 // import { magicAdmin } from '../../lib/magic';
+import jwt from 'jsonwebtoken';
 
 const login = async(req, res) => {
     if(req.method === 'POST'){
@@ -14,6 +15,17 @@ const login = async(req, res) => {
             console.log("metadata:", metadata);
             const {issuer, email, publicAdress} = metadata;
 
+            const token = jwt.sign({
+                "https://hasura.io/jwt/claims": {
+                    "x-hasura-allowed-roles": ["user", "admin"],
+                    "x-hasura-default-role": "user",
+                    "x-hasura-user-id": issuer,
+                    ...metadata,
+                }
+                }, issuer, { expiresIn: '7d' });
+
+            console.log(token);
+
             res.send({done: true});
         }catch(err){
             console.error('something went wrong logging in', err)
@@ -25,6 +37,8 @@ const login = async(req, res) => {
 }
 
 export default login;
+
+
 
 
 

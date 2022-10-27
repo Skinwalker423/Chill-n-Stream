@@ -39,6 +39,8 @@ export const UserProvider = ({children}) => {
     const setUserInfo = async() => {
         try{
             const {email, publicAddress, issuer}  = await m.user.getMetadata();
+            const idToken = await m.user.getIdToken();
+            console.log(idToken);
             if(publicAddress && email){
                 dispatch({type: ACTION_TYPES.SET_USER, payload: {user:publicAddress, email, issuer}});
                 console.log('setting user');
