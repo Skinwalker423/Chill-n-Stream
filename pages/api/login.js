@@ -10,25 +10,25 @@ const login = async(req, res) => {
         try{
             const auth = req.headers.authorization;
             const didToken = auth ? auth.slice(7) : '';
-            console.log(didToken);
 
             const metadata = await magicAdmin.users.getMetadataByToken(didToken);
             console.log("metadata:", metadata);
             const {issuer, email, publicAdress} = metadata;
 
-            const token = jwt.sign({
-                "https://hasura.io/jwt/claims": {
-                    "x-hasura-allowed-roles": ["user", "admin"],
-                    "x-hasura-default-role": "user",
-                    "x-hasura-user-id": issuer,
-                    ...metadata,
-                }
-                }, issuer, { expiresIn: '7d' });
-
-            console.log(token);
-            const isNewUser = await startFetchMyQueryUserCheck(token);
-
-            res.send({done: true, isNewUser});
+            if(metadata.issuer){
+                const token = jwt.sign({
+                    "https://hasura.io/jwt/claims": {
+                        "x-hasura-allowed-roles": ["user", "admin"],
+                        "x-hasura-default-role": "user",
+                        "x-hasura-user-id": issuer,
+                        ...metadata,
+                    }
+                }, process.env.NEXT_PUBLIC_JWT_SECRET, { expiresIn: '7d' });
+                
+                const isNewUser = await startFetchMyQueryUserCheck(token, issuer);
+                
+                res.send({done: true, isNewUser});
+            }
         }catch(err){
             console.error('something went wrong logging in', err)
             res.status(400).send({done: false})
