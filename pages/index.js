@@ -4,58 +4,28 @@ import styles from '../styles/Home.module.css'
 import NavBar from '../components/navBar/navBar'
 import { classMap } from '../components/card/card'
 import SectionCards from '../components/card/SectionCards'
-import fetchYouTubeVideos from '../lib/fetchYouTubeVideos'
 import { getVideosByQuery, getPopularVideos } from '../lib/fetchYouTubeVideos'
-import { m } from '../lib/magic-client'
-import vidaData from '../data/youtubeQuery.json'
-import { useState, useEffect, useContext } from 'react'
-import { useRouter } from 'next/router'
+import { useContext } from 'react'
 import { UserContext } from '../store/userContext'
 import Loader from '../components/Loader/Loader'
-import { startFetchMyQueryUserCheck } from '../lib/db/hasura'
+
 
 export async function getServerSideProps(context) {
 
   const disneyVids = await getVideosByQuery('Disney trailer');
   const comedyVids = await getVideosByQuery('Comedy Movies');
   const popVids = await getPopularVideos();
-  // const disneyVids = vidaData.items;
-  // const comedyVids = vidaData.items;
-  // const popVids = vidaData.items;
-  const res = await startFetchMyQueryUserCheck();
-  console.log({res});
-  const hasuraData = res.users ? res.users : [];
-
-  // const userStats = hasuraData.stats.find((data) => data.userId === issuer);
-
-
 
   return{
-    props: {disneyVids, comedyVids, popVids, hasuraData}
+    props: {disneyVids, comedyVids, popVids}
   }
 }
 
 
-
-
-
-export default function Home({disneyVids, comedyVids, popVids, hasuraData}) {
+export default function Home({disneyVids, comedyVids, popVids}) {
 
   const {isLoading} = useContext(UserContext);
-
   const {state} = useContext(UserContext);
-
-  useEffect(() =>{
-    if(state.issuer){
-    console.log(hasuraData);
-    const userStats = hasuraData.find((data) => data.issuer === state.issuer);
-    console.log(userStats);
-  }
-  }, [state.issuer])
-
-
-
-
 
   return (
     <div className={styles.container}>
