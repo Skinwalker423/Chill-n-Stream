@@ -8,8 +8,6 @@ import { ACTION_TYPES } from '../store/userContext'
 import Link from 'next/link'
 import { m } from '../lib/magic-client'
 
-console.log(m);
-
 
 const login = () => {
 
@@ -51,11 +49,27 @@ const login = () => {
             setIsLoading(false);
             setUserMessage('Could not authenticate');
         }
-        dispatch({type: ACTION_TYPES.SET_USER, payload: {user, email}})
-        router.push(`/`);
+
+        const result = await fetch('/api/login',
+            {
+                method: "POST",
+                headers: {
+                    'conent-type': "application/json",
+                    'Authorization': `Bearer ${user}`,
+                    },
+            }
+        );
+
+        const loggedInResponse = await result.json();
+        if(loggedInResponse.done){
+            dispatch({type: ACTION_TYPES.SET_USER, payload: {user, email}})
+            router.push(`/`);
+        } else {
+            setIsLoading(false);
+            setUserMessage('Problem logging in');
+        }
     } catch(err) {
         console.log("error with magic link", err);
-        setIsLoading(false);
     }
 
   }
