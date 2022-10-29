@@ -4,6 +4,7 @@ const magicAdmin = new Magic(process.env.SECRET_MAGIC_LINK_API_KEY);
 // import { magicAdmin } from '../../lib/magic';
 import jwt from 'jsonwebtoken';
 import { fetchMyQuery, createUser } from '../../lib/db/hasura';
+import { setCookieToken } from '../../lib/cookies';
 
 const login = async(req, res) => {
     if(req.method === 'POST'){
@@ -28,16 +29,20 @@ const login = async(req, res) => {
                     const isExistingUser = await fetchMyQuery(token, issuer);
 
                     if(isExistingUser){
+                        const setCookie = setCookieToken(token, res);
+                        console.log({setCookie});
                         return res.send({done: true, message: "existing user"});
                         
                     } else {
+                        const setCookie = setCookieToken(token, res);
+                        console.log({setCookie});
                         const {data, errors} = await createUser(email, issuer, publicAddress, token);
                         if(errors){
                             console.log("problem creating user");
                             console.log(errors);
 
                         }
-                        res.send({done: true, message:"new user"});
+                        return res.send({done: true, message:"new user"});
                         
                     } 
                 }catch(err){
