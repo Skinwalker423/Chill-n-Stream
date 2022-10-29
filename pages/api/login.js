@@ -3,19 +3,15 @@ const { Magic } = require('@magic-sdk/admin');
 const magicAdmin = new Magic(process.env.SECRET_MAGIC_LINK_API_KEY);
 // import { magicAdmin } from '../../lib/magic';
 import jwt from 'jsonwebtoken';
-import { startFetchMyQueryUserCheck } from '../../lib/db/hasura';
-import { startInsertUser } from '../../lib/db/hasura';
+import { fetchMyQuery, createUser } from '../../lib/db/hasura';
 
 const login = async(req, res) => {
     if(req.method === 'POST'){
         try{
             const auth = req.headers.authorization;
             const didToken = auth ? auth.slice(7) : '';
-            console.log({didToken});
-            console.log({auth});
 
             const metadata = await magicAdmin.users.getMetadataByToken(didToken);
-            console.log("metadata:", metadata);
             const {issuer, email, publicAddress} = metadata;
 
             if(metadata.issuer){
@@ -26,17 +22,28 @@ const login = async(req, res) => {
                         "x-hasura-user-id": issuer,
                         ...metadata,
                     }
-                }, process.env.NEXT_PUBLIC_JWT_SECRET, { expiresIn: '7d' });
+                }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
-                
-                const isNewUser = await startFetchMyQueryUserCheck(token, issuer);
+                try{
+                    const isExistingUser = await fetchMyQuery(token, issuer);
 
-                
-                const newUser = await startInsertUser(email, issuer, publicAddress, token);
-                console.log({newUser});
-                
-                
-                res.send({done: true, isNewUser});
+                    if(isExistingUser){
+                        return res.send({done: true, message: "existing user"});
+                        
+                    } else {
+                        const {data, errors} = await createUser(email, issuer, publicAddress, token);
+                        if(errors){
+                            console.log("problem creating user");
+                            console.log(errors);
+
+                        }
+                        res.send({done: true, message:"new user"});
+                        
+                    } 
+                }catch(err){
+                    console.error('problem verifying user', err);
+                    res.status(400).send({errorMesage: err});
+                }
             }
         }catch(err){
             console.error('something went wrong logging in', err)
