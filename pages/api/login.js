@@ -31,9 +31,13 @@ const login = async(req, res) => {
                         return res.send({done: true, message: "existing user"});
                         
                     } else {
-                        const newUser = await createUser(email, issuer, publicAddress, token);
-                        console.log({newUser: newUser.errors});
-                        res.send({done: true, message:"new user", isExistingUser});
+                        const {data, errors} = await createUser(email, issuer, publicAddress, token);
+                        if(errors){
+                            console.log("problem creating user");
+                            console.log(errors);
+
+                        }
+                        res.send({done: true, message:"new user"});
                         
                     } 
                 }catch(err){
