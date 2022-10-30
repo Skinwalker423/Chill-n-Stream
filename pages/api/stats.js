@@ -1,4 +1,4 @@
-
+import jwt from 'jsonwebtoken'
 
 const stats = async(req, res) => {
   if(req.method === 'POST'){
@@ -7,6 +7,8 @@ const stats = async(req, res) => {
         if(!token){
             return res.status(403).send({error: 'forbidden'})
         }
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        console.log({decoded});
         
         res.send({message: 'stats updated'})
     }catch(err){
