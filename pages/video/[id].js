@@ -5,6 +5,8 @@ import Modal from 'react-modal';
 Modal.setAppElement('#__next');
 import clsx from 'classnames';
 import { getVideoById } from '../../lib/fetchYouTubeVideos';
+import Like from '../../components/icons/like-icon';
+import DisLike from '../../components/icons/dislike-icon';
 
 export async function getStaticProps({params}) {
   
@@ -57,7 +59,8 @@ const listofBannerVids = ["mYfJxlgR2jw", "4zH5iYM4wJo", "KCPEHsAViiQ"];
 
 const Video = ({video}) => {
 
-
+    const [likeBtnSelected, setLikeBtnSelected] = useState(false);
+    const [disLikeBtnSelected, setDisLikeBtnSelected] = useState(false);
     const { title, publishTime, description, channelTitle, statistics: {viewCount} } = video;
 
     const router = useRouter();
@@ -78,6 +81,19 @@ const Video = ({video}) => {
         router.back();
         setIsOpen(false);
         // router.push('/');
+  }
+
+  const handlelikeBtn = () => {
+    console.log('liked');
+    setLikeBtnSelected((bool) => !bool);
+    setDisLikeBtnSelected(false);
+
+  }
+  const handleDisLikeBtn = () => {
+    console.log('downvoted');
+    setDisLikeBtnSelected((bool) => !bool);
+    setLikeBtnSelected(false);
+
   }
 
     return (
@@ -103,6 +119,18 @@ const Video = ({video}) => {
                     className={styles.videoPlayer}
                     
                 ></iframe>
+                <div className={styles.likeDislikeBtnWrapper}>
+                    <button onClick={handlelikeBtn} type='button'>
+                        <div className={styles.btnWrapper}>
+                            <Like selected={likeBtnSelected}  />
+                        </div>
+                    </button>
+                    <button onClick={handleDisLikeBtn} type='button'>
+                        <div className={styles.btnWrapper}>
+                            <DisLike selected={disLikeBtnSelected} />
+                        </div>
+                    </button>
+                </div>
                 <div className={styles.modalBody}>
                     <div className={styles.modalBodyContent}>
                         <div className={styles.col1}>
