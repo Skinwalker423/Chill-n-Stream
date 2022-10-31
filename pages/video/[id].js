@@ -63,10 +63,9 @@ const Video = ({video}) => {
     const [disLikeBtnSelected, setDisLikeBtnSelected] = useState(false);
     const { title, publishTime, description, channelTitle, statistics: {viewCount} } = video;
 
-    const router = useRouter();
-
-    let subtitle;
     const [isOpen, setIsOpen] = useState(true);
+    const router = useRouter();
+    const videoId = router.query.id;
 
     function openModal() {
         setIsOpen(true);
@@ -83,11 +82,33 @@ const Video = ({video}) => {
         // router.push('/');
   }
 
-  const handlelikeBtn = () => {
+  const handlelikeBtn = async() => {
     console.log('liked');
     setLikeBtnSelected((bool) => !bool);
     setDisLikeBtnSelected(false);
 
+    const checkVideoExistsByUserId = async(videoId) => {
+        try{
+            const result = await fetch(`/api/stats?videoId=${videoId}`,
+            {
+                method: "POST",
+                headers: {
+                    'conent-type': "application/json",
+                },
+            }
+            );
+            return await result.json();
+        }catch(err){
+            console.error('something went wrong retrieving video');
+        }
+    }
+
+    const checkVideo = await checkVideoExistsByUserId(videoId);
+    if(checkVideo.length === 0){
+        console.log('no video in hasura');
+    } else {
+        console.log('found video in hasura', checkVideo);
+    }
   }
   const handleDisLikeBtn = () => {
     console.log('downvoted');
@@ -106,15 +127,12 @@ const Video = ({video}) => {
                 className={styles.modal}
                 overlayClassName={styles.overlay}
             >
-                
-                
-            
                 <iframe 
                     id="ytplayer" 
                     type="text/html" 
                     width="100%" 
                     height="360"
-                    src={`https://www.youtube.com/embed/${router.query.id}?autoplay=0&controls=0`}
+                    src={`https://www.youtube.com/embed/${videoId}?controls=0`}
                     frameBorder="0"
                     className={styles.videoPlayer}
                     
