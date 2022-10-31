@@ -5,6 +5,8 @@ import Modal from 'react-modal';
 Modal.setAppElement('#__next');
 import clsx from 'classnames';
 import { getVideoById } from '../../lib/fetchYouTubeVideos';
+import Like from '../../components/icons/like-icon';
+import DisLike from '../../components/icons/dislike-icon';
 
 export async function getStaticProps({params}) {
   
@@ -57,13 +59,13 @@ const listofBannerVids = ["mYfJxlgR2jw", "4zH5iYM4wJo", "KCPEHsAViiQ"];
 
 const Video = ({video}) => {
 
-
+    const [likeBtnSelected, setLikeBtnSelected] = useState(false);
+    const [disLikeBtnSelected, setDisLikeBtnSelected] = useState(false);
     const { title, publishTime, description, channelTitle, statistics: {viewCount} } = video;
 
-    const router = useRouter();
-
-    let subtitle;
     const [isOpen, setIsOpen] = useState(true);
+    const router = useRouter();
+    const videoId = router.query.id;
 
     function openModal() {
         setIsOpen(true);
@@ -80,6 +82,41 @@ const Video = ({video}) => {
         // router.push('/');
   }
 
+  const handlelikeBtn = async() => {
+    console.log('liked');
+    setLikeBtnSelected((bool) => !bool);
+    setDisLikeBtnSelected(false);
+
+    const checkVideoExistsByUserId = async(videoId) => {
+        try{
+            const result = await fetch(`/api/stats?videoId=${videoId}`,
+            {
+                method: "POST",
+                headers: {
+                    'conent-type': "application/json",
+                },
+            }
+            );
+            return await result.json();
+        }catch(err){
+            console.error('something went wrong retrieving video');
+        }
+    }
+
+    const checkVideo = await checkVideoExistsByUserId(videoId);
+    if(checkVideo.length === 0){
+        console.log('no video in hasura');
+    } else {
+        console.log('found video in hasura', checkVideo);
+    }
+  }
+  const handleDisLikeBtn = () => {
+    console.log('downvoted');
+    setDisLikeBtnSelected((bool) => !bool);
+    setLikeBtnSelected(false);
+
+  }
+
     return (
         <div className={styles.container}>
             <Modal
@@ -90,19 +127,28 @@ const Video = ({video}) => {
                 className={styles.modal}
                 overlayClassName={styles.overlay}
             >
-                
-                
-            
                 <iframe 
                     id="ytplayer" 
                     type="text/html" 
                     width="100%" 
                     height="360"
-                    src={`https://www.youtube.com/embed/${router.query.id}?autoplay=0&controls=0`}
+                    src={`https://www.youtube.com/embed/${videoId}?controls=0`}
                     frameBorder="0"
                     className={styles.videoPlayer}
                     
                 ></iframe>
+                <div className={styles.likeDislikeBtnWrapper}>
+                    <button onClick={handlelikeBtn} type='button'>
+                        <div className={styles.btnWrapper}>
+                            <Like selected={likeBtnSelected}  />
+                        </div>
+                    </button>
+                    <button onClick={handleDisLikeBtn} type='button'>
+                        <div className={styles.btnWrapper}>
+                            <DisLike selected={disLikeBtnSelected} />
+                        </div>
+                    </button>
+                </div>
                 <div className={styles.modalBody}>
                     <div className={styles.modalBodyContent}>
                         <div className={styles.col1}>

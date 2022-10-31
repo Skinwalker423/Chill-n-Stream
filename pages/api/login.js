@@ -14,11 +14,11 @@ const login = async(req, res) => {
             const {issuer, email, publicAddress} = metadata;
 
             const token = jwt.sign({
+                ...metadata,
                 "https://hasura.io/jwt/claims": {
                     "x-hasura-allowed-roles": ["user", "admin"],
                     "x-hasura-default-role": "user",
                     "x-hasura-user-id": issuer,
-                    ...metadata,
                 }
             }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
