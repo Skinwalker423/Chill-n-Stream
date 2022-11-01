@@ -86,30 +86,23 @@ const Video = ({video}) => {
     console.log('liked');
     setLikeBtnSelected((bool) => !bool);
     setDisLikeBtnSelected(false);
-
-    const checkVideoExistsByUserId = async(videoId) => {
-        try{
-            const result = await fetch(`/api/stats?videoId=${videoId}`,
-            {
-                method: "POST",
-                headers: {
-                    'conent-type': "application/json",
-                },
-            }
-            );
-            return await result.json();
-        }catch(err){
-            console.error('something went wrong retrieving video');
+    try{
+        const result = await fetch(`/api/stats?videoId=${videoId}`,
+        {
+            method: "POST",
+            headers: {
+                'conent-type': "application/json",
+            },
         }
+        );
+        const returnedData = await result.json();
+        console.log(returnedData);
+    }catch(err){
+        console.error('something went wrong retrieving video', err);
     }
 
-    const checkVideo = await checkVideoExistsByUserId(videoId);
-    if(checkVideo.length === 0){
-        console.log('no video in hasura');
-    } else {
-        console.log('found video in hasura', checkVideo);
-    }
   }
+
   const handleDisLikeBtn = () => {
     console.log('downvoted');
     setDisLikeBtnSelected((bool) => !bool);
