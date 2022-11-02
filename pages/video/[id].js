@@ -12,8 +12,6 @@ export async function getStaticProps({params}) {
   
     const vidId = params.id;
     const videoList = await getVideoById(vidId);
-    console.log({videoList});
-    // const videoList = {}
     const videoBackup = {
         title: "Hi cute dog",
         publishTime: "1990-01-01",

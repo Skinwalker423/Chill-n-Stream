@@ -16,7 +16,12 @@ const stats = async(req, res) => {
         
         if(doesStatsExist){
           console.log('updating stats');
-          const {data, errors} = await updateUserStats(issuer, videoId, token);
+          const {data, errors} = await updateUserStats(token, {
+            issuer, 
+            videoId, 
+            favorited: 0,
+            watched: true,
+          });
           if(errors){
             console.error('error creating user stats', errors);
             res.status(400).send({error: errors});
@@ -24,7 +29,12 @@ const stats = async(req, res) => {
           console.log("data from updating stats",data);
         } else {
           console.log('creating stats');
-          const {data, errors} = await createUserStats(issuer, videoId, token);
+          const {data, errors} = await createUserStats(token, {
+            issuer, 
+            videoId, 
+            favorited: 1,
+            watched: false,
+          });
           if(errors){
             console.error('error creating user stats', errors);
             res.status(400).send({error: errors});
