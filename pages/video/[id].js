@@ -64,7 +64,7 @@ const Video = ({video}) => {
     const [isOpen, setIsOpen] = useState(true);
     const router = useRouter();
     const videoId = router.query.id;
-
+    console.log({videoId});
     function openModal() {
         setIsOpen(true);
     }
@@ -84,13 +84,19 @@ const Video = ({video}) => {
     console.log('liked');
     setLikeBtnSelected((bool) => !bool);
     setDisLikeBtnSelected(false);
+    const stats = {
+                videoId,
+                watched: false,
+                favorited: 0,
+            }
     try{
-        const result = await fetch(`/api/stats?videoId=${videoId}`,
+        const result = await fetch(`/api/stats`,
         {
             method: "POST",
             headers: {
                 'conent-type': "application/json",
             },
+            body: JSON.stringify(stats)
         }
         );
         const returnedData = await result.json();
