@@ -5,7 +5,7 @@ const stats = async(req, res) => {
   if(req.method === 'POST'){
     try{
         const {token} = req.cookies;
-        const {videoId} = req.query;
+        const {videoId, watched, favorited} = JSON.parse(req.body);
         
         if(!token){
             return res.status(403).send({error: 'forbidden. Must log in and have cookies to use these features'})
@@ -16,22 +16,33 @@ const stats = async(req, res) => {
         
         if(doesStatsExist){
           console.log('updating stats');
-          const {data, errors} = await updateUserStats(issuer, videoId, token);
+          const {data, errors} = await updateUserStats(token, {
+            issuer, 
+            videoId, 
+            favorited,
+            watched,
+          });
           if(errors){
             console.error('error creating user stats', errors);
             res.status(400).send({error: errors});
           }
-          console.log("data from updating stats",data);
+          console.log("completed updating stats",data);
+          res.send({message: 'stats updated', data});
         } else {
           console.log('creating stats');
-          const {data, errors} = await createUserStats(issuer, videoId, token);
+          const {data, errors} = await createUserStats(token, {
+            issuer, 
+            videoId, 
+            favorited,
+            watched,
+          });
           if(errors){
             console.error('error creating user stats', errors);
             res.status(400).send({error: errors});
           }
-          console.log("data from creating stats",data);
+          console.log("completed creating stats",data);
+          res.send({message: 'stats updated', data});
         }
-        res.send({message: 'stats updated'});
     }catch(err){
         console.error('something went wrong with getting stats', err);
         res.status(500).send({done: false, error: err});
