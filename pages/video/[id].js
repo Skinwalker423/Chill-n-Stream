@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useRouter } from 'next/router';
 import styles from './[id].module.css'
 import Modal from 'react-modal';
@@ -64,7 +64,61 @@ const Video = ({video}) => {
     const [isOpen, setIsOpen] = useState(true);
     const router = useRouter();
     const videoId = router.query.id;
-    console.log({videoId});
+    const favoritedValue = !likeBtnSelected ? 1 : 0;
+
+    const updatedUserStats = async(favorited = favoritedValue) => {
+    const stats = {
+        videoId,
+        favorited,
+    }
+
+    try{
+        const result = await fetch(`/api/stats`,
+        {
+            method: "POST",
+            headers: {
+                'conent-type': "application/json",
+            },
+            body: JSON.stringify(stats)
+        }
+        );
+        const returnedData = await result.json();
+        console.log({returnedData});
+        return returnedData;
+    }catch(err){
+        console.error('something went wrong posting stats', err);
+    }
+  }
+  const userStatsFavorited = async() => {
+   
+    try{
+        const result = await fetch(`/api/stats?videoId=${videoId}`);
+        const returnedData = await result.json();
+        console.log({returnedData});
+        if(returnedData === 1){
+            setLikeBtnSelected(true);
+        }
+        return returnedData;
+    }catch(err){
+        console.error('something went wrong getting favorited stats', err);
+    }
+  }
+
+  const handlelikeBtn = async() => {
+    console.log('liked');
+    setLikeBtnSelected((bool) => !bool);
+    setDisLikeBtnSelected(false);
+    return await updatedUserStats();
+  }
+
+  const handleDisLikeBtn = async() => {
+    console.log('downvoted');
+    setDisLikeBtnSelected((bool) => !bool);
+    setLikeBtnSelected(false);
+    return await updatedUserStats(0);
+  }
+
+
     function openModal() {
         setIsOpen(true);
     }
@@ -80,39 +134,11 @@ const Video = ({video}) => {
         // router.push('/');
   }
 
-  const handlelikeBtn = async() => {
-    console.log('liked');
-    setLikeBtnSelected((bool) => !bool);
-    setDisLikeBtnSelected(false);
-    const stats = {
-                videoId,
-                watched: false,
-                favorited: 0,
-            }
-    try{
-        const result = await fetch(`/api/stats`,
-        {
-            method: "POST",
-            headers: {
-                'conent-type': "application/json",
-            },
-            body: JSON.stringify(stats)
-        }
-        );
-        const returnedData = await result.json();
-        console.log(returnedData);
-    }catch(err){
-        console.error('something went wrong retrieving video', err);
-    }
+  useEffect(() => {
+    userStatsFavorited();
+  }, [])
 
-  }
-
-  const handleDisLikeBtn = () => {
-    console.log('downvoted');
-    setDisLikeBtnSelected((bool) => !bool);
-    setLikeBtnSelected(false);
-
-  }
+  
 
     return (
         <div className={styles.container}>
