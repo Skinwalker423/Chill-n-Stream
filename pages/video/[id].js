@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useRouter } from 'next/router';
 import styles from './[id].module.css'
 import Modal from 'react-modal';
@@ -66,24 +66,7 @@ const Video = ({video}) => {
     const videoId = router.query.id;
     const favoritedValue = !likeBtnSelected ? 1 : 0;
 
-
-
-    function openModal() {
-        setIsOpen(true);
-    }
-
-    function afterOpenModal() {
-        // references are now sync'd and can be accessed.
-        // subtitle.style.color = '#f00';
-    }
-
-    function closeModal() {
-        router.back();
-        setIsOpen(false);
-        // router.push('/');
-  }
-
-  const postUserStats = async(favorited = favoritedValue) => {
+    const updatedUserStats = async(favorited = favoritedValue) => {
     const stats = {
         videoId,
         favorited,
@@ -106,20 +89,56 @@ const Video = ({video}) => {
         console.error('something went wrong posting stats', err);
     }
   }
+  const userStatsFavorited = async() => {
+   
+    try{
+        const result = await fetch(`/api/stats?videoId=${videoId}`);
+        const returnedData = await result.json();
+        console.log({returnedData});
+        if(returnedData === 1){
+            setLikeBtnSelected(true);
+        }
+        return returnedData;
+    }catch(err){
+        console.error('something went wrong getting favorited stats', err);
+    }
+  }
 
   const handlelikeBtn = async() => {
     console.log('liked');
     setLikeBtnSelected((bool) => !bool);
     setDisLikeBtnSelected(false);
-    return await postUserStats();
+    return await updatedUserStats();
   }
 
   const handleDisLikeBtn = async() => {
     console.log('downvoted');
     setDisLikeBtnSelected((bool) => !bool);
     setLikeBtnSelected(false);
-    return await postUserStats(0);
+    return await updatedUserStats(0);
   }
+
+
+    function openModal() {
+        setIsOpen(true);
+    }
+
+    function afterOpenModal() {
+        // references are now sync'd and can be accessed.
+        // subtitle.style.color = '#f00';
+    }
+
+    function closeModal() {
+        router.back();
+        setIsOpen(false);
+        // router.push('/');
+  }
+
+  useEffect(() => {
+    userStatsFavorited();
+  }, [])
+
+  
 
     return (
         <div className={styles.container}>

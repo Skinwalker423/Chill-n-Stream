@@ -10,11 +10,16 @@ const stats = async(req, res) => {
         if(!token){
             return res.status(403).send({error: 'forbidden. Must log in and have cookies to use these features'})
         }
+        if(!videoId){
+          return res.status(403).send({error: 'no video id found'});
+        }
+
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
         const {issuer} = decodedToken;
-        const doesStatsExist = await fetchUserStatsVideo(token, issuer, videoId);
+        const userStatsData = await fetchUserStatsVideo(token, issuer, videoId);
+        const doesVideoExist = userStatsData?.length > 0;
         
-        if(doesStatsExist){
+        if(doesVideoExist){
           console.log('updating stats');
           const {data, errors} = await updateUserStats(token, {
             issuer, 
@@ -47,6 +52,30 @@ const stats = async(req, res) => {
         console.error('something went wrong with getting stats', err);
         res.status(500).send({done: false, error: err});
     }
+  } else if(req.method === 'GET'){
+    try{
+        const {token} = req.cookies;
+        const {videoId} = req.query;
+        
+        if(!token){
+            return res.status(403).send({error: 'forbidden. Must log in and have cookies to use these features'})
+        }
+        if(!videoId){
+          return res.status(403).send({error: 'no video id found'});
+        }
+
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+        const {issuer} = decodedToken;
+        const userStatsData = await fetchUserStatsVideo(token, issuer, videoId);
+        const isFavorited = userStatsData[0]?.favorited;
+        return res.send(isFavorited);
+        
+        
+    }catch(err){
+        console.error('something went wrong with getting favorited stats', err);
+        res.status(500).send({error: err});
+    }
+
   } else {
     res.status(400).send({message: 'wrong request'})
   }
