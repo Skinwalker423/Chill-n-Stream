@@ -64,7 +64,10 @@ const Video = ({video}) => {
     const [isOpen, setIsOpen] = useState(true);
     const router = useRouter();
     const videoId = router.query.id;
-    console.log({videoId});
+    const favoritedValue = !likeBtnSelected ? 1 : 0;
+
+
+
     function openModal() {
         setIsOpen(true);
     }
@@ -80,15 +83,12 @@ const Video = ({video}) => {
         // router.push('/');
   }
 
-  const handlelikeBtn = async() => {
-    console.log('liked');
-    setLikeBtnSelected((bool) => !bool);
-    setDisLikeBtnSelected(false);
+  const postUserStats = async(favorited = favoritedValue) => {
     const stats = {
-                videoId,
-                watched: false,
-                favorited: 0,
-            }
+        videoId,
+        favorited,
+    }
+
     try{
         const result = await fetch(`/api/stats`,
         {
@@ -100,18 +100,25 @@ const Video = ({video}) => {
         }
         );
         const returnedData = await result.json();
-        console.log(returnedData);
+        console.log({returnedData});
+        return returnedData;
     }catch(err){
-        console.error('something went wrong retrieving video', err);
+        console.error('something went wrong posting stats', err);
     }
-
   }
 
-  const handleDisLikeBtn = () => {
+  const handlelikeBtn = async() => {
+    console.log('liked');
+    setLikeBtnSelected((bool) => !bool);
+    setDisLikeBtnSelected(false);
+    return await postUserStats();
+  }
+
+  const handleDisLikeBtn = async() => {
     console.log('downvoted');
     setDisLikeBtnSelected((bool) => !bool);
     setLikeBtnSelected(false);
-
+    return await postUserStats(0);
   }
 
     return (

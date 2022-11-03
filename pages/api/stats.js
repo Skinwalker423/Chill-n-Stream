@@ -5,7 +5,7 @@ const stats = async(req, res) => {
   if(req.method === 'POST'){
     try{
         const {token} = req.cookies;
-        const {videoId, watched, favorited} = JSON.parse(req.body);
+        const {videoId, watched = true, favorited} = JSON.parse(req.body);
         
         if(!token){
             return res.status(403).send({error: 'forbidden. Must log in and have cookies to use these features'})
