@@ -68,7 +68,21 @@ const stats = async(req, res) => {
         const {issuer} = decodedToken;
         const userStatsData = await fetchUserStatsVideo(token, issuer, videoId);
         const isFavorited = userStatsData[0]?.favorited;
-        return res.send(isFavorited);
+        if(userStatsData.length > 0){
+          return res.send(isFavorited);
+        } else {
+          console.log('creating stats');
+          const {data, errors} = await createUserStats(token, {
+            issuer, 
+            videoId, 
+          });
+          if(errors){
+            console.error('error creating user stats', errors);
+            res.status(400).send({error: errors});
+          }
+          console.log("completed creating stats",data);
+          res.send({message: 'stats created', data});
+        }
         
         
     }catch(err){
