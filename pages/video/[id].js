@@ -89,20 +89,7 @@ const Video = ({video}) => {
         console.error('something went wrong posting stats', err);
     }
   }
-  const userStatsFavorited = async() => {
-   
-    try{
-        const result = await fetch(`/api/stats?videoId=${videoId}`);
-        const returnedData = await result.json();
-        console.log({returnedData});
-        if(returnedData === 1){
-            setLikeBtnSelected(true);
-        }
-        return returnedData;
-    }catch(err){
-        console.error('something went wrong getting favorited stats', err);
-    }
-  }
+  
 
   const handlelikeBtn = async() => {
     console.log('liked');
@@ -135,6 +122,19 @@ const Video = ({video}) => {
   }
 
   useEffect(() => {
+    const userStatsFavorited = async() => {
+        try{
+            const result = await fetch(`/api/stats?videoId=${videoId}`);
+            const returnedData = await result.json();
+            console.log({returnedData});
+            if(returnedData === 1){
+                setLikeBtnSelected(true);
+            }
+            return returnedData;
+        }catch(err){
+            console.error('something went wrong getting favorited stats', err);
+        }
+    }
     userStatsFavorited();
   }, [])
 
