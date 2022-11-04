@@ -16,13 +16,17 @@ export async function getServerSideProps(context) {
   const comedyVids = await getVideosByQuery('Comedy Movies');
   const popVids = await getPopularVideos();
 
+  const watchedResponse = await fetch('/api/watched');
+  const watchAgainVids = await watchedResponse.json();
+
+
   return{
-    props: {disneyVids, comedyVids, popVids}
+    props: {disneyVids, comedyVids, popVids, watchAgainVids}
   }
 }
 
 
-export default function Home({disneyVids, comedyVids, popVids}) {
+export default function Home({disneyVids, comedyVids, popVids, watchAgainVids}) {
 
   const {isLoading} = useContext(UserContext);
   const {state} = useContext(UserContext);
