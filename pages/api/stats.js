@@ -18,8 +18,10 @@ const stats = async(req, res) => {
 
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
         const {issuer} = decodedToken;
+
         const userStatsData = await fetchUserStatsVideo(token, issuer, videoId);
         const doesVideoExist = userStatsData?.length > 0;
+        console.log({userStatsData});
 
         if(req.method === 'POST'){
           const {watched = true, favorited} = JSON.parse(req.body);
@@ -55,9 +57,8 @@ const stats = async(req, res) => {
           }
         } else if (req.method === 'GET') {
 
-          const isFavorited = userStatsData[0]?.favorited;
-
           if(userStatsData.length > 0){
+            const isFavorited = userStatsData[0]?.favorited;
             return res.send(isFavorited);
           } else {
               console.log('creating stats');
