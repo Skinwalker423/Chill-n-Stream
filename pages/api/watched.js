@@ -19,7 +19,13 @@ const watched = async(req, res) => {
         console.log({watchedVideos});
 
         if(watchedVideos.length > 0){
-            return res.send(watchedVideos);
+            const mapWatchedVids = watchedVideos.map((movie) => {
+                return {
+                    id: movie.videoId,
+                    imgUrl: '',
+                }
+            })
+            return res.send(mapWatchedVids);
         } else {
             return res.send('no watched vids found');
         }
