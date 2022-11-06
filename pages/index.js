@@ -9,7 +9,7 @@ import { useContext } from 'react'
 import { UserContext } from '../store/userContext'
 import Loader from '../components/Loader/Loader'
 import { getWatchedVids } from '../lib/fetchYouTubeVideos'
-import verifyToken from '../lib/utils'
+import useRedirectUser from '../utils/redirectUser'
 
 export async function getServerSideProps(context) {
 
@@ -17,9 +17,7 @@ export async function getServerSideProps(context) {
   const comedyVids = await getVideosByQuery('Comedy Movies');
   const popVids = await getPopularVideos();
 
-  const token = context.req?.cookies?.token;
-  const issuer = await verifyToken(token);
-  
+  const {token, issuer} = await useRedirectUser(context);
 
   const response = await getWatchedVids(token, issuer);
   const watchAgainVids = response ? response : [];
