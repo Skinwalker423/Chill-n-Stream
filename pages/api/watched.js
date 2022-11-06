@@ -22,7 +22,7 @@ const watched = async(req, res) => {
             const mapWatchedVids = watchedVideos.map((movie) => {
                 return {
                     id: movie.videoId,
-                    imgUrl: '',
+                    imgUrl: `https://i.ytimg.com/vi/${movie.videoId}/0.jpg`,
                 }
             })
             return res.send(mapWatchedVids);

@@ -33,7 +33,7 @@ const Card = ({imgUrl = 'https://images.unsplash.com/photo-1554403333-39f4efbcda
           blurDataURL='/static/netflix.svg' 
           className={styles.cardImg} 
           layout='fill' 
-          src={imgSrc} 
+          src={imgSrc || 'https://images.unsplash.com/photo-1554403333-39f4efbcdaf0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1884&q=80'} 
           alt={'pic of movie'}
           onError={handleError}
           key={key}

@@ -45,7 +45,7 @@ const listofBannerVids = ["mYfJxlgR2jw", "4zH5iYM4wJo", "KCPEHsAViiQ"];
   const paths = listofBannerVids.map((vidId) => ({
     params: { id: vidId },
   }))
-  console.log(paths);
+  console.log({paths});
 
   // We'll pre-render only these paths at build time.
   // { fallback: blocking } will server-render pages
