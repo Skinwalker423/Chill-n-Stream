@@ -1,11 +1,11 @@
 import React from 'react'
-import Link from 'next/link';
 import redirectUser from '../../utils/redirectUser';
 import { getFavoriteVids } from '../../lib/fetchYouTubeVideos';
 import SectionCards from '../../components/card/SectionCards';
 import { classMap } from '../../components/card/card';
 import Head from 'next/head';
 import NavBar from '../../components/navBar/navBar';
+import styles from './my-list.module.css';
 
 export async function getServerSideProps(context){
     const {issuer, token} = await redirectUser(context);
@@ -35,15 +35,17 @@ export async function getServerSideProps(context){
 
 const myList = ({myListVids}) => {
   return (
-    <div>
+    <div className={styles.container}>
       <Head>
         <title>My Favorites List</title>
         <meta name="description" content="watch from your favorited content" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
+      <main className={styles.main}>
           <NavBar avatarUrl={'/static/expand.svg'} />
-          <SectionCards moviesArray={myListVids} section={'My List'} size={classMap.large} />
+          <div className={styles.cardSectionContainer}>
+            <SectionCards moviesArray={myListVids} section={'My List'} size={classMap.large} />
+          </div>
       </main>
     </div>
 
