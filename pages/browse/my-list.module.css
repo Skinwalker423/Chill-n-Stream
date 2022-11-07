@@ -1,0 +1,11 @@
+.main{
+    margin-top: 1rem;
+    padding-bottom: 4rem;
+}
+
+
+.cardSectionContainer{
+    padding-top: 2rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+}

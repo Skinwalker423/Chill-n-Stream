@@ -61,7 +61,7 @@ const NavBar = () => {
               </a>
             </Link>
             <ul className={styles.navItems}>
-              <li onClick={handleHome} className={styles.navItem}>Home</li>
+              <Link href={'/'} ><a><li className={styles.navItem}>Home</li></a></Link>
               <li onClick={handleMyList} className={styles.navItem}>My List</li>
             </ul>
         </div>

@@ -1,7 +1,6 @@
 import React from 'react'
 import styles from './SectionCards.module.css'
 import Card from './card'
-import { classMap } from './card'
 import Link from 'next/link'
 
 const SectionCards = ({section = 'Section', moviesArray = [], size }) => {
