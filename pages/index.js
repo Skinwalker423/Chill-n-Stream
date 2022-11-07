@@ -9,7 +9,7 @@ import { useContext } from 'react'
 import { UserContext } from '../store/userContext'
 import Loader from '../components/Loader/Loader'
 import { getWatchedVids } from '../lib/fetchYouTubeVideos'
-import useRedirectUser from '../utils/redirectUser'
+import redirectUser from '../utils/redirectUser'
 
 export async function getServerSideProps(context) {
 
@@ -17,7 +17,18 @@ export async function getServerSideProps(context) {
   const comedyVids = await getVideosByQuery('Comedy Movies');
   const popVids = await getPopularVideos();
 
-  const {token, issuer} = await useRedirectUser(context);
+  const {token, issuer} = await redirectUser(context);
+
+  if(!issuer){
+        return {
+        props: {},
+        redirect: {
+            destination: '/login',
+            permanent: false,
+        }
+
+        }
+    }
 
   const response = await getWatchedVids(token, issuer);
   const watchAgainVids = response ? response : [];
