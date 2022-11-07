@@ -4,23 +4,25 @@ import redirectUser from '../../utils/redirectUser';
 import { getFavoriteVids } from '../../lib/fetchYouTubeVideos';
 import SectionCards from '../../components/card/SectionCards';
 import { classMap } from '../../components/card/card';
+import Head from 'next/head';
+import NavBar from '../../components/navBar/navBar';
 
 export async function getServerSideProps(context){
     const {issuer, token} = await redirectUser(context);
-    console.log('issuer and token', issuer, token);
 
-    // if(!issuer){
-    //     return {
-    //     props: {},
-    //     redirect: {
-    //         destination: '/login',
-    //         permanent: false,
-    //     }
+    if(!issuer){
+        return {
+        props: {},
+        redirect: {
+            destination: '/login',
+            permanent: false,
+        }
 
-    //     }
-    // }
+        }
+    }
 
     const response = await getFavoriteVids(token, issuer);
+    console.log({response})
     const myListVids = response ? response : [];
 
 
@@ -34,9 +36,15 @@ export async function getServerSideProps(context){
 const myList = ({myListVids}) => {
   return (
     <div>
-        <h1>Here is my list of favorite streams</h1>
-        <Link href={'/'}><a>Go Back Home</a></Link>
-        <SectionCards moviesArray={myListVids} section={'Favorites'} size={classMap.large} />
+      <Head>
+        <title>My Favorites List</title>
+        <meta name="description" content="watch from your favorited content" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <main>
+          <NavBar avatarUrl={'/static/expand.svg'} />
+          <SectionCards moviesArray={myListVids} section={'My List'} size={classMap.large} />
+      </main>
     </div>
 
   )
