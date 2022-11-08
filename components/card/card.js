@@ -14,9 +14,10 @@ export const classMap = {
 const defaultImg = 'https://images.unsplash.com/photo-1554403333-39f4efbcdaf0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1884&q=80'
 
 
-const Card = ({imgUrl = defaultImg, size = 'medium'}, key) => {
+const Card = ({imgUrl = defaultImg, size = 'medium', disableScale}, key) => {
 
   const [imgSrc, setImgSrc] = useState(imgUrl);
+
 
   useEffect(() => {
     setImgSrc(imgUrl);
@@ -29,7 +30,7 @@ const Card = ({imgUrl = defaultImg, size = 'medium'}, key) => {
 
   return (
     <div className={styles.container}>
-      <motion.div className={cls(styles.imgMotionWrapper, size)} whileHover={{scale: 1.125}}>
+      <motion.div className={cls(styles.imgMotionWrapper, size)} whileHover={!disableScale && { scale: 1.125}}>
         <Image 
           placeholder='blur' 
           blurDataURL='/static/netflix.svg' 

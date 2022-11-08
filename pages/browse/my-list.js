@@ -46,7 +46,7 @@ const myList = ({myListVids}) => {
             <SectionCards 
               moviesArray={myListVids} 
               section={'My List'} 
-              size={classMap.medium}
+              size={classMap.small}
               shouldWrap={true}
             />
           </div>
