@@ -47,7 +47,7 @@ const myList = ({myListVids}) => {
               moviesArray={myListVids} 
               section={'My List'} 
               size={classMap.small}
-              shouldWrap={true}
+              myListStyles={true}
             />
           </div>
       </main>
