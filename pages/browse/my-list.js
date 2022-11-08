@@ -22,7 +22,6 @@ export async function getServerSideProps(context){
     }
 
     const response = await getFavoriteVids(token, issuer);
-    console.log({response})
     const myListVids = response ? response : [];
 
 
@@ -44,7 +43,12 @@ const myList = ({myListVids}) => {
       <main className={styles.main}>
           <NavBar avatarUrl={'/static/expand.svg'} />
           <div className={styles.cardSectionContainer}>
-            <SectionCards moviesArray={myListVids} section={'My List'} size={classMap.large} />
+            <SectionCards 
+              moviesArray={myListVids} 
+              section={'My List'} 
+              size={classMap.medium}
+              shouldWrap={true}
+            />
           </div>
       </main>
     </div>

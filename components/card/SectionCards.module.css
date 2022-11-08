@@ -9,7 +9,7 @@
     padding-right: 1rem
         /* 16px */
     ;
-    /* padding-top: 2rem; */
+    
     
 }
 
@@ -32,6 +32,21 @@
     ;
     overflow-y: hidden;
     overflow-x: scroll;
+    
+}
+
+.myListCardContainer{
+    display: flex;
+    padding-top: 1.7rem;
+    padding-bottom: 1.5rem;
+    margin-top: 1.5rem
+        /* 24px */
+    ;
+    margin-right: 0.75rem
+        /* 12px */
+    ;
+    overflow-y: hidden;
+    flex-wrap: wrap;
     
 }
 
