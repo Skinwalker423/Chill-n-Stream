@@ -1,4 +1,5 @@
-import { magicAdmin } from '../../lib/magic';
+const { Magic } = require('@magic-sdk/admin');
+const magicAdmin = new Magic(process.env.SECRET_MAGIC_LINK_API_KEY);
 import jwt from 'jsonwebtoken';
 import { fetchMyQuery, createUser } from '../../lib/db/hasura';
 import { setCookieToken } from '../../lib/cookies';

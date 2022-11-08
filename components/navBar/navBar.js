@@ -36,12 +36,29 @@ const NavBar = () => {
   const handleSignOut = async() => {
     console.log('logging off');
     try {
-      const userLoggedOff = await m.user.logout();
-      if(userLoggedOff){
+      const {issuer}  = await m.user.getMetadata();
+      if(!issuer){
+        return console.log('could not get issuer from metadata');
+      }
+      const result = await fetch('/api/logout',
+            {
+                method: "POST",
+                headers: {
+                    'conent-type': "application/json",
+                    'Authorization': `Bearer ${issuer}`,
+                    },
+            }
+        );
+      const loggedOutResponse = await result.json();
+      console.log({loggedOutResponse});
+  
+      if(loggedOutResponse.loggedOff === true){
         dispatch({type: ACTION_TYPES.SIGN_OUT})
         setExpandDropdown(false);
         router.push('/login');
       }
+
+      
     
     } catch(err) {
       console.error('something went wrong logging off', err);
