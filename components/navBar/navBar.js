@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { UserContext } from '../../store/userContext';
 import { ACTION_TYPES } from '../../store/userContext';
-import { m } from '../../lib/magic-client';
 
 
 
@@ -13,24 +12,9 @@ const NavBar = () => {
 
   const [expandDropdown, setExpandDropdown] = useState(false);
   const {state, dispatch} = useContext(UserContext);
-  const [didToken, setDidToken] = useState('');
 
   const router = useRouter();
 
-  useEffect(() => {
-    const getTokenFromCookies = async() => { 
-      try {
-        const didTokenResponse = await m.user.getIdToken();
-        if (didTokenResponse) {
-          setDidToken(didTokenResponse);
-        }
-      } catch (error) {
-        console.error("Error retrieving email", error);
-      }
-    }
-
-    getTokenFromCookies();
-  }, []);
 
 
   const handleHome = (e) => {
@@ -57,11 +41,11 @@ const NavBar = () => {
                 method: "POST",
                 headers: {
                     'conent-type': "application/json",
-                    'Authorization': `Bearer ${didToken}`,
+                    'Authorization': `Bearer ${state.didToken}`,
                     },
             }
         );
-  
+            
       dispatch({type: ACTION_TYPES.SIGN_OUT})
       setExpandDropdown(false);
       router.push('/login');
