@@ -1,26 +1,38 @@
-const { Magic } = require('@magic-sdk/admin');
-const magicAdmin = new Magic(process.env.SECRET_MAGIC_LINK_API_KEY);
+import { magicAdmin } from "../../lib/magic";
 import { deleteCookieToken } from "../../lib/cookies"
+import verifyToken from "../../lib/utils";
 
 const logout = async(req, res) => {
 
-try{
-    const auth = req.headers.authorization;
-    const didToken = auth ? auth.slice(7) : '';
-    if(didToken){
-        await magicAdmin.users.logoutByIssuer(didToken);
-        deleteCookieToken(res);
-        return res.send({loggedOff: true});
+    if(req.method === 'POST'){
+        try{
+            const {token} = req.cookies;
+            if(!token){
+                return res.status(401).json({ message: "User is not logged in" })
+            }
+            const issuer = verifyToken(token);
 
-    } else {
-        res.status(500).send({message: 'no token was found'});
-    }
+            if(issuer){
+                try{
+                    await magicAdmin.users.logoutByIssuer(issuer);
+                    deleteCookieToken(res);
     
-    
-}catch(err){
-    console.error('something went wrong logging out', err);
-    res.status(403).send({loggedOff: false, message: 'something went wrong logging out', err})
-}
+                }catch(error){
+                    console.log("User's session with Magic already expired");
+                    console.error("Error occurred while logging out magic user", error);
+                }
+
+            }
+
+            res.writeHead(302, { Location: "/login" });
+            res.end();
+            
+            
+        }catch(err){
+            console.error('something went wrong logging out', err);
+            res.status(401).json({message: 'something went wrong logging out', err})
+        }
+    } else res.status(404).send({message: 'invalid request'});
 }
 
 export default logout
