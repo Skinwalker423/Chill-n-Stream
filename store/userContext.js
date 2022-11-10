@@ -60,7 +60,7 @@ export const UserProvider = ({children}) => {
             }
         }catch(err){
             console.log('problem with getting user token Id', err);
-            router.push('/login');
+            // router.push('/login');
         }
     }
 

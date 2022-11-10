@@ -106,7 +106,7 @@ const login = () => {
                     {userMessage && <p className={styles.userMessage}>{userMessage}</p>}
                 </section>
                 <div className={styles.buttonWrapper}>
-                    <button className={isloading ? styles.disabled : styles.button} disabled={isLoading} type="submit">{isLoading ? 'Loading...': 'Sign In'}</button>
+                    <button className={styles.button} disabled={isLoading} type="submit">{isLoading ? 'Loading...': 'Sign In'}</button>
                 </div>
             </form>
             
