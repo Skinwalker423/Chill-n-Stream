@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import React, { useRef, useContext, useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import styles from '../styles/login.module.css'
 import Image from 'next/image'
 import { UserContext } from '../store/userContext'
@@ -14,7 +14,7 @@ const login = () => {
   const [email, setEmail] = useState('');
   const [userMessage, setUserMessage] = useState('');
   const router = useRouter();
-  const {state, dispatch} = useContext(UserContext);
+  const {dispatch} = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {

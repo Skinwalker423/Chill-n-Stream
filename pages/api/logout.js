@@ -18,7 +18,6 @@ const logout = async(req, res) => {
                     deleteCookieToken(res);
     
                 }catch(error){
-                    console.log("User's session with Magic already expired");
                     console.error("Error occurred while logging out magic user", error);
                 }
 

@@ -44,12 +44,9 @@ export const UserProvider = ({children}) => {
             console.log({didTokenResponse});
             if(publicAddress && email){
                 dispatch({type: ACTION_TYPES.SET_USER, payload: {user:publicAddress, email, issuer, didToken: didTokenResponse}});
-                console.log('setting user');
-                console.log('current path in user context',currentPath);
+    
                 if(currentPath === `/dashboard/[tokenId]`){
                     if(router.query.tokenId !== publicAddress ){
-                        console.log('not authorized');
-                        console.log({publicAddress});
                         router.push(`/dashboard/${publicAddress}`);
                     } 
                 } else {
@@ -59,7 +56,7 @@ export const UserProvider = ({children}) => {
                 router.push('/login');
             }
         }catch(err){
-            console.log('problem with getting user token Id', err);
+            console.error('problem with getting user token Id', err);
             // router.push('/login');
         }
     }
