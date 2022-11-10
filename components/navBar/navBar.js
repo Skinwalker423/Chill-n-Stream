@@ -77,7 +77,7 @@ const NavBar = () => {
                 {state.email && <button onClick={handleUserInfo} className={styles.usernameBtn}>
                     <p className={styles.username}>{state.email}</p>
                     <div className={styles.expandIconWrapper}>
-                        <Image src={"https://img.icons8.com/small/16/FFFFFF/expand-arrow.png"} width={20} height={20} />  
+                        <Image src={"https://img.icons8.com/small/16/FFFFFF/expand-arrow.png"} width={20} height={20} alt={'expand arrow icon'} />  
                     </div> 
                 </button>}
                 {state.user && expandDropdown && 

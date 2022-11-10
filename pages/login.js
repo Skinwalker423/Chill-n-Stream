@@ -9,7 +9,7 @@ import Link from 'next/link'
 import { m } from '../lib/magic-client'
 
 
-const login = () => {
+const Login = () => {
 
   const [email, setEmail] = useState('');
   const [userMessage, setUserMessage] = useState('');
@@ -83,7 +83,7 @@ const login = () => {
   return (
     <div className={styles.container}>
         <Head>
-            <title>Chill'n Stream Login</title>
+            <title>Chill`&#39;n Stream Login</title>
             <meta name='description'  content='login page' />
         </Head>
         <header>
@@ -116,4 +116,4 @@ const login = () => {
   )
 }
 
-export default login
+export default Login

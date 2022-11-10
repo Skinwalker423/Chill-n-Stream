@@ -26,7 +26,7 @@ export async function getStaticProps({params}) {
     props: {
       video: videoList.length > 0 ? videoList[0] : videoBackup ,
     },
-    
+
     revalidate: 60, // In seconds
   }
 }
@@ -125,7 +125,7 @@ const Video = ({video}) => {
         }
     }
     userStatsFavorited();
-  }, [])
+  }, [videoId])
 
   
 

@@ -8,7 +8,6 @@ import clsx from 'classnames';
 
   const BannerModal = ({videoId, isOpen, setIsOpen}) => {
 
-    const [isOpen, setIsOpen] = useState(false);
 
     const videoBackup = {
         title: "Hi cute dog",
