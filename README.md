@@ -1,6 +1,6 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 deployed app: 
-https://www.chill-n-stream.vercel.app
+https://chill-n-stream.vercel.app
 
 ![chillnstream](https://user-images.githubusercontent.com/85347852/201458797-84e68612-decc-444e-9ea4-e526055f6e09.PNG)
 
